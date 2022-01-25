@@ -11,7 +11,7 @@
   The Dashboard sub folder contains the python code for displaying metrics and a general control panel for our device. 
 
 #### Requires
-Dash, Dash HTML Components, Dash Core Components, Dash Bootstrap Components, Plotly.
+Dash, Dash HTML Components, Dash Core Components, Dash Bootstrap Components, Plotly, and Pandas.
 
 ```
 conda install -c conda-forge dash
