@@ -8,7 +8,8 @@
 
 ## Dashboard
 
-  The Dashboard sub folder contains the python code for displaying metrics and a general control panel for our device. 
+  The Dashboard sub folder contains the python code for displaying metrics and a general control panel for our device.
+  Ensure you run index.py and not dashboard.py.
 
 #### Requires
 Dash, Dash HTML Components, Dash Core Components, Dash Bootstrap Components, Plotly, and Pandas.
