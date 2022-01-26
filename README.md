@@ -13,6 +13,7 @@
 #### Requires
 Dash, Dash HTML Components, Dash Core Components, Dash Bootstrap Components, Plotly, and Pandas. Install using your package manager of choice.
 
+Anaconda:
 ```
 conda install -c conda-forge dash
 conda install -c conda-forge dash-core-components
@@ -21,6 +22,16 @@ conda install -c conda-forge dash-bootstrap-components
 conda install -c conda-forge plotly
 conda install -c conda-forge pandas
 ```
+Pip:
+```
+pip install dash
+pip install dash-core-components
+pip install dash-html-components
+pip install dash-bootstrap-components
+pip install plotly
+pip install pandas
+```
+
 #### To Run
   index.py is the primary dashboard server, ensure you run that either locally in your terminal or with something like pm2.
 
