@@ -3,6 +3,7 @@ from dash.dependencies import Input, Output, State
 from dash import html
 from dash import dcc
 import dash_bootstrap_components as dbc
+import plotly.express as px
 
 from dashboard import app
 
@@ -13,28 +14,50 @@ from dashboard import app
 # Index/Home Page
 # Layout
 home = html.Div([
-    dbc.Button("cool button", id="cool-button", n_clicks=0),
-    dbc.Offcanvas(
-        html.P(
-            "This is a really cool button to test a really cool page"
-        ),
-        id="offcanvas-cool-button",
-        title="we like to test",
-        is_open=False,
+    dbc.Row(
+        [
+            dbc.Col(html.Div( #no callbacks for any of these set up yet, just proof of concept
+                [
+                dbc.ButtonGroup([dbc.Button("THIS"), dbc.Button("DOES"), dbc.Button("STUFF")]),
+                dbc.Button("STUFF 1", color="secondary", className="me-1"),
+                dbc.Button("STUFF 2", color="secondary", className="me-1"),
+                dbc.Button("STUFF 3", color="secondary", className="me-1"),
+                dbc.Button("STUFF 4", color="secondary", className="me-1"),
+                dbc.Button("STUFF 5", color="secondary", className="me-1"),
+                dbc.ButtonGroup([dbc.Button("THIS"), dbc.Button("IS"), dbc.Button("STUFF")]),
+                ],
+                className="d-grid gap-2 d-md-flex justify-content-md-center",
+            )),
+        ]
+    ),
+    dbc.Row(  # TOP ROW OF QUADRANT
+        [
+            dbc.Col(html.Div(  # QUADRANT ONE
+            )),
+            dbc.Col(html.Div(  # QUADRANT TWO
+                    dcc.Graph(
+                        figure=px.scatter(px.data.gapminder().query("year == 2007"), x="gdpPercap", y="lifeExp",
+                                          title="QUADRANT 2 SAMPLE GRAPH")
+                    )
+                    )),
+        ]
+    ),
+    dbc.Row(  # BOTTOM ROW OF QUADRANT
+        [
+            dbc.Col(html.Div(  # QUADRANT THREE
+
+            )),
+            dbc.Col(html.Div(  # QUADRANT FOUR
+                dcc.Graph(
+                    figure=px.scatter(px.data.iris(), x="sepal_length", y="sepal_width", color="species",
+                                      title="QUADRANT 4 SAMPLE GRAPH"))
+            )
+            )
+        ]
     ),
 ])
 
 # Index/home page callbacks
-# home cool-button.
-@app.callback(
-    Output("offcanvas-cool-button", "is_open"),
-    Input("cool-button", "n_clicks"),
-    [State("offcanvas-cool-button", "is_open")],
-)
-def toggle_offcanvas(n1, is_open):
-    if n1:
-        return not is_open
-    return is_open
 
 
 # Graphs Page
@@ -71,7 +94,9 @@ graph = html.Div(
 
 # Graph Page Callbacks
 # fade button
-@app.callback(
+
+
+@ app.callback(
     Output("fade", "is_in"),
     [Input("fade-button", "n_clicks")],
     [State("fade", "is_in")],
