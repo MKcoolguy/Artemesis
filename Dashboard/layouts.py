@@ -6,10 +6,12 @@ import dash_bootstrap_components as dbc
 
 from dashboard import app
 
-# Each one of these will contain the general design of a page based on the name of the layout. Bootstrap is used for most of our CSS needs.
 # The actual site structure is located in index.py and the dash app itself is located in dashboard.py
+# The content loaded in the page-content container in index.py are located here.
+# If you want to add more, follow the below examples. Put the layout first and the associated callbacks below it.
 
-#index/home page.
+# Index/Home Page
+# Layout
 home = html.Div([
     dbc.Button("cool button", id="cool-button", n_clicks=0),
     dbc.Offcanvas(
@@ -20,8 +22,8 @@ home = html.Div([
         title="we like to test",
         is_open=False,
     ),
-]
-)
+])
+
 # Index/home page callbacks
 # home cool-button.
 @app.callback(
@@ -35,7 +37,8 @@ def toggle_offcanvas(n1, is_open):
     return is_open
 
 
-# Graph page
+# Graphs Page
+# Layout
 graph = html.Div(
     [
         dbc.Button(

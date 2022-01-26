@@ -11,26 +11,31 @@ from layouts import home, graph
 
 #This file is the main dash server, always run index.py, do not run dashboard.py.
 
+#We will see this layout on every page.
+#The way dash works is that its a "single-page layout", so when you have multiple pages, it just reloads the layout but maintains the index layout
+#when set up to support multiple pages. So when we click another page, the "main" index layout will stay the same and it will just change the contents of the page.
+#What is in this layout below will be present on every single page on our dashboard.
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
-    dbc.NavbarSimple( #Bootstrap Navbar
+    dbc.NavbarSimple(
        children=[
-          dbc.NavLink("Home", href="/", active="exact"),
+          dbc.NavLink("Home", href="/", active="exact"), #These navlinks are part one of the multi page functionality. Obviously, button to another page.
           dbc.NavLink("Graph", href="/graph", active="exact"),
        ],
        brand="S.A.U.C.E. 2.0",
        color="primary",
        dark=True,
     ),
-    dbc.Container(id="page-content", className="pt-4"),
+    dbc.Container(id="page-content", className="pt-4"), #Part two of the multi-page functionality. The layout called on button click in the below callback will be placed inside the page-content container.
 ])
 
-#This is the callback function that updates the page after selection with the appropriate layout.
-#Because of how this works, this is the one callback function that we cannot segregate into either layouts.py or callbacks.py
-#depending on how we want to do it going forward.
+#Should we decide to segregate all of our callbacks into a seperate .py file, this is the one that must remain here as it allows us to use multiple pages.
+#This is part three of the multi-page functionality.
+#When the user clicks on one of the navbar buttons, it references a pathname. This callback takes that pathname, converts it to a layout, and then reloads
+#the page-content container with the appropriate layout located in layouts.py.
 @app.callback(Output('page-content', 'children'),
               Input('url', 'pathname'))
-def display_page(pathname):
+def display_page(pathname): 
     if pathname == '/':
         return home
     elif pathname == '/graph':
