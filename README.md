@@ -38,4 +38,4 @@ pip install pandas
 ## Authors
 Dr. Tae Lee (tslee@ggc.edu), Dr. Sairam Tangirala (stangira@ggc.edu)
 
-Byron Fisher (bfisher1@ggc.edu), Khamilah Nixon (knixon4@ggc.edu), Kristoffer Hendricks (khendricks@ggc.edu), Matteo Kitic (mitic@ggc.edu), Samuel Mckinney (smckinney1@ggc.edu), Valerie Morse (vmorse@ggc.edu)
+Byron Fisher (bfisher1@ggc.edu), Khamilah Nixon (knixon4@ggc.edu), Kristoffer Hendricks (khendricks@ggc.edu), Matteo Kitic (mkitic@ggc.edu), Samuel Mckinney (smckinney1@ggc.edu), Valerie Morse (vmorse@ggc.edu)
