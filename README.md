@@ -35,6 +35,21 @@ pip install pandas
 #### To Run
   index.py is the primary dashboard server, ensure you run that either locally in your terminal or with something like pm2.
 
+## Helpers
+
+  The helpers subdirectory is a set of scripts necessary for major parts of our project to function, such as live video streaming from the S.A.U.C.E. module itself.
+
+#### Requires
+Just PiCamera
+
+Install it through the terminal, below example is for debian-based distros.
+```
+apt-get install python3-picamera
+```
+
+#### To Run
+  Call the scripts directly (python3 scriptname.py). These will be rolled into the dashboard as time goes forward.
+
 ## Authors
 Dr. Tae Lee (tslee@ggc.edu), Dr. Sairam Tangirala (stangira@ggc.edu)
 
