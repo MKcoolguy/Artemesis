@@ -1,47 +1,90 @@
-from dash import html
+import dash
 from dash import dcc
-from dash.dependencies import Input, Output
+from dash import html
 import dash_bootstrap_components as dbc
-import plotly.graph_objects as go
+from dash.dependencies import Input, Output
 import plotly.express as px
+import plotly.graph_objects as go
 import pandas as pd
+from jupyter_dash import JupyterDash
+from figures import Graphs
+# Text field
+def drawText():
+    return html.Div([
+        dbc.Card(
+            dbc.CardBody([
+                html.Div([
+                    html.H2("Text"),
+                ], style={'textAlign': 'center'}) 
+            ])
+        ),
+    ])
 
-from dashboard import app
-from layouts import home, graph
-
-#This file is the main dash server, always run index.py, do not run dashboard.py.
-
-#We will see this layout on every page.
-#The way dash works is that its a "single-page layout", so when you have multiple pages, it just reloads the layout but maintains the index layout
-#when set up to support multiple pages. So when we click another page, the "main" index layout will stay the same and it will just change the contents of the page.
-#What is in this layout below will be present on every single page on our dashboard.
+# Build App
+app = JupyterDash(external_stylesheets=[dbc.themes.SLATE])
 app.layout = html.Div([
-    dcc.Location(id='url', refresh=False),
-    dbc.NavbarSimple(
-       children=[
-          dbc.NavLink("Home", href="/", active="exact"), #These navlinks are part one of the multi page functionality. Obviously, button to another page.
-          dbc.NavLink("Graph", href="/graph", active="exact"),
-       ],
-       brand="S.A.U.C.E. 2.0",
-       color="primary",
-       dark=True,
-    ),
-    dbc.Container(id="page-content", className="pt-4"), #Part two of the multi-page functionality. The layout called on button click in the below callback will be placed inside the page-content container.
+    dbc.Card(
+        dbc.CardBody([
+            dbc.Row([
+                dbc.Col([
+                    drawText()
+                ], width=3),
+                dbc.Col([
+                    drawText()
+                ], width=3),
+                dbc.Col([
+                    drawText()
+                ], width=3),
+                dbc.Col([
+                    drawText()
+                ], width=3),
+            ], align='center'), 
+            html.Br(),
+            dbc.Row([
+                dbc.Col([
+                    Graphs.drawFigure() 
+                ], width=3),
+                dbc.Col([
+                    Graphs.drawFigure()
+                ], width=3),
+                dbc.Col([
+                    Graphs.drawFigure() 
+                ], width=6),
+            ], align='center'), 
+            html.Br(),
+            dbc.Row([
+                dbc.Col([
+                    #Temperature/Time Graph
+                    html.Div([
+                        dbc.Card(
+                            dbc.CardBody([
+                                dcc.Graph(
+                                    id='tempGraph',
+                                    figure=Graphs.createTempGraph()),
+                                    dcc.Interval(
+                                        id='interval-component',
+                                        interval=1*1000,
+                                        n_intervals=0
+                                    )
+                            ])
+                        )
+                    ]),
+                ], width=9),
+                dbc.Col([
+                    Graphs.drawFigure()
+                ], width=3),
+            ], align='center'),      
+        ]), color = 'dark'
+    )
 ])
 
-#Should we decide to segregate all of our callbacks into a seperate .py file, this is the one that must remain here as it allows us to use multiple pages.
-#This is part three of the multi-page functionality.
-#When the user clicks on one of the navbar buttons, it references a pathname. This callback takes that pathname, converts it to a layout, and then reloads
-#the page-content container with the appropriate layout located in layouts.py.
-@app.callback(Output('page-content', 'children'),
-              Input('url', 'pathname'))
-def display_page(pathname): 
-    if pathname == '/':
-        return home
-    elif pathname == '/graph':
-        return graph
-    else:
-        return '404'
+##Updates the temperature/time graph.
+@app.callback(
+    dash.dependencies.Output('tempGraph', 'figure'),
+    dash.dependencies.Input('interval-component', 'n_intervals'))
+def refresh_data(n_clicks):
+    return Graphs.createTempGraph()
 
-if __name__ == '__main__':
-    app.run_server(debug=True)
+# Run app and display result inline in the notebook
+if __name__ == "__main__":
+    app.run_server(host='0.0.0.0', port='8050', mode='external')
