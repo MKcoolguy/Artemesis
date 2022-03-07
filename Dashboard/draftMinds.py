@@ -1,7 +1,7 @@
 import plotly.express as px
 from jupyter_dash import JupyterDash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import plotly.express as px
@@ -46,7 +46,6 @@ df = px.data.iris()
 
 # Build App
 app = JupyterDash(external_stylesheets=[dbc.themes.SLATE])
-
 app.layout = html.Div([
     dbc.Card(
         dbc.CardBody([
