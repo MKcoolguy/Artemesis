@@ -1,10 +1,11 @@
-import plotly.express as px
-from jupyter_dash import JupyterDash
+import dash
 from dash import dcc
 from dash import html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import plotly.express as px
+import pandas as pd
+from jupyter_dash import JupyterDash
 
 #Rough draft template for the new dashboard design
 
@@ -16,6 +17,27 @@ def drawFigure():
                 dcc.Graph(
                     figure=px.bar(
                         df, x="sepal_width", y="sepal_length", color="species"
+                    ).update_layout(
+                        template='plotly_dark',
+                        plot_bgcolor= 'rgba(0, 0, 0, 0)',
+                        paper_bgcolor= 'rgba(0, 0, 0, 0)',
+                    ),
+                    config={
+                        'displayModeBar': False
+                    }
+                ) 
+            ])
+        ),  
+    ])
+
+def drawTempGraph():
+    df = pd.read_csv('/home/pi/Artemis/Dashboard/assets/data/temperature.csv')
+    return  html.Div([
+        dbc.Card(
+            dbc.CardBody([
+                dcc.Graph(
+                    figure=px.line(
+                        df, x="Time", y="Temperature", title='Temperature over Time'
                     ).update_layout(
                         template='plotly_dark',
                         plot_bgcolor= 'rgba(0, 0, 0, 0)',
@@ -78,7 +100,7 @@ app.layout = html.Div([
             html.Br(),
             dbc.Row([
                 dbc.Col([
-                    drawFigure()
+                    drawTempGraph()
                 ], width=9),
                 dbc.Col([
                     drawFigure()
@@ -88,5 +110,12 @@ app.layout = html.Div([
     )
 ])
 
+@app.callback(
+    dash.dependencies.Output('g1', 'figure'),
+    dash.dependencies.Input('interval-component', 'n_intervals'))
+def refresh_data(n_clicks):
+    return drawTempGraph()
+
 # Run app and display result inline in the notebook
-app.run_server(mode='external')
+if __name__ == "__main__":
+    app.run_server(host='0.0.0.0', port='8050', mode='external')
