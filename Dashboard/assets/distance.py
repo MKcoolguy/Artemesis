@@ -19,7 +19,7 @@ GPIO.setup(GPIO_ECHO, GPIO.IN)
 
 
 #Datafile Location
-datafile = "/home/pi/Artemis/Dashboard/assets/data/temperature.csv"
+datafile = "/home/pi/Artemis/Dashboard/assets/data/distance.csv"
 
 #Fetch distance and timestamp
 def get_data():
