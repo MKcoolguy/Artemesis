@@ -25,8 +25,14 @@ class Graphs:
                 paper_bgcolor='rgba(0,0,0,0)',
             )
         )
+
+    #returns the most recent temperature value read from the sensor.
+    def get_most_recent_temp():
+        df = pd.read_csv(os.path.join(cwd, 'assets/data/temperature.csv'))
+        y = df['Temperature']
+        return y.iat[-1]
     
-        # Iris bar figure
+    # Iris bar figure
     def drawFigure():
         df = px.data.iris()
         return html.Div([

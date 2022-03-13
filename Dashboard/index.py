@@ -8,17 +8,21 @@ import plotly.graph_objects as go
 import pandas as pd
 from jupyter_dash import JupyterDash
 from figures import Graphs
+
 # Text field
-def drawText():
+def drawText(user_value):
     return html.Div([
         dbc.Card(
             dbc.CardBody([
                 html.Div([
-                    html.H2("Text"),
-                ], style={'textAlign': 'center'}) 
+                    user_value
+                ], style={'textAlign': 'center'}),
+                
             ])
         ),
     ])
+
+
 
 # Build App
 app = JupyterDash(external_stylesheets=[dbc.themes.SLATE])
@@ -27,16 +31,23 @@ app.layout = html.Div([
         dbc.CardBody([
             dbc.Row([
                 dbc.Col([
-                    drawText()
+                    #Temperature
+                    html.Div(id="live-update-text"),
+                    dcc.Interval(
+                        id='interval-component-2',
+                        interval=1*1000, # in milliseconds
+                        n_intervals=0
+                        )
+                    #drawText(recent_temp)
                 ], width=3),
                 dbc.Col([
-                    drawText()
+                    drawText("Testing...")
                 ], width=3),
                 dbc.Col([
-                    drawText()
+                    drawText("Testing...")
                 ], width=3),
                 dbc.Col([
-                    drawText()
+                    drawText("Testing...")
                 ], width=3),
             ], align='center'), 
             html.Br(),
@@ -84,6 +95,16 @@ app.layout = html.Div([
     dash.dependencies.Input('interval-component', 'n_intervals'))
 def refresh_data(n_clicks):
     return Graphs.createTempGraph()
+
+
+##Gets real time temp vlaue
+@app.callback(
+    Output('live-update-text', 'children'),
+    Input('interval-component-2', 'n_intervals'))
+def refresh_temp_value(n_clicks):
+    recent_temp = Graphs.get_most_recent_temp() #Stores
+    return drawText(recent_temp)
+
 
 # Run app and display result inline in the notebook
 if __name__ == "__main__":
