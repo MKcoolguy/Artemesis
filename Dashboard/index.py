@@ -17,7 +17,6 @@ def drawText(user_value):
                 html.Div([
                     user_value
                 ], style={'textAlign': 'center'}),
-                
             ])
         ),
     ])
@@ -38,7 +37,6 @@ app.layout = html.Div([
                         interval=1*1000, # in milliseconds
                         n_intervals=0
                         )
-                    #drawText(recent_temp)
                 ], width=3),
                 dbc.Col([
                     drawText("Testing...")
@@ -102,7 +100,7 @@ def refresh_data(n_clicks):
     Output('live-update-text', 'children'),
     Input('interval-component-2', 'n_intervals'))
 def refresh_temp_value(n_clicks):
-    recent_temp = Graphs.get_most_recent_temp() #Stores
+    recent_temp = Graphs.get_most_recent_temp()
     return drawText(recent_temp)
 
 

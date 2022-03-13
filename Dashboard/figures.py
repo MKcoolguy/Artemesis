@@ -10,7 +10,9 @@ cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
 class Graphs:
     #Creates the temperature graph
+ 
     def createTempGraph():
+        global df
         df = pd.read_csv(os.path.join(cwd, 'assets/data/temperature.csv'))
         df.columns = ['Time', 'Temperature']
         return go.Figure(
@@ -28,7 +30,6 @@ class Graphs:
 
     #returns the most recent temperature value read from the sensor.
     def get_most_recent_temp():
-        df = pd.read_csv(os.path.join(cwd, 'assets/data/temperature.csv'))
         y = df['Temperature']
         return y.iat[-1]
     
