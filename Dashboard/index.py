@@ -1,16 +1,15 @@
-from click import style
 import dash
 from dash import dcc
 from dash import html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
-from matplotlib.pyplot import close
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 from jupyter_dash import JupyterDash
 from scipy.fft import dst
 from figures import Graphs
+from figures import ArchivedData
 import os
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
@@ -124,7 +123,8 @@ home = html.Div([
 # TODO add filepath for local archived data and create function to rename files with timestamp at the end of file name
 filepath = os.path.join(cwd, 'assets/data/temperature.csv')
 archived_data_page = html.Div([
-    dcc.Link('temperature.csv', href = filepath),
+    #dcc.Link('temperature.csv', href = filepath),
+    ArchivedData.get_all_data('assets/data/')
     
 ])
 

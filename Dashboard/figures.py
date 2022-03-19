@@ -54,3 +54,13 @@ class Graphs:
                 ])
             ),
         ])
+
+class ArchivedData:
+    
+    #Lists and returns all files in data directory
+    def get_all_data(path):
+        file_names=os.listdir(os.path.join(cwd, path))
+        file_list = html.Ul([html.Li(file) for file in file_names])
+        return file_list
+
+        
