@@ -1,13 +1,18 @@
+from click import style
 import dash
 from dash import dcc
 from dash import html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
+from matplotlib.pyplot import close
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 from jupyter_dash import JupyterDash
+from scipy.fft import dst
 from figures import Graphs
+import os
+cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
 # Text field
 def drawText(user_value):
@@ -26,6 +31,34 @@ def drawText(user_value):
 # Build App
 app = JupyterDash(external_stylesheets=[dbc.themes.SLATE])
 app.layout = html.Div([
+    dbc.NavbarSimple(
+       children=[
+          dbc.NavLink("Home", href="/", active="exact"),
+          dbc.NavLink("Archived Data", href="/archivedData", active="exact"),
+       ],
+       brand="S.A.U.C.E. 2.0",
+       color="primary",
+       dark=True,
+    ),
+    # represents the browser address bar and doesn't render anything
+    dcc.Location(id='url', refresh=False),
+    # content will be rendered in this element
+    html.Div(id='page-content')
+])
+
+
+
+home = html.Div([
+    dcc.Tabs(id="tabs-styled-with-props", value='tab-1', children=[
+        dcc.Tab(label='Temperature Sensor On/Off', value='temp-sensor'),
+        dcc.Tab(label='Distance Sensor On/Off', value='distance-sensor'),
+        dcc.Tab(label='Camera On/Off', value='camera-feed'),
+        dcc.Tab(label='All On/off', value='all-plugins'),
+    ], colors={
+        "border": "black",
+        "primary": "Silver",
+        "background": "dark"
+    }), html.Div(id='tabs-content-props'),
     dbc.Card(
         dbc.CardBody([
             dbc.Row([
@@ -84,8 +117,17 @@ app.layout = html.Div([
                 ], width=3),
             ], align='center'),      
         ]), color = 'dark'
-    )
+    ) 
 ])
+
+
+# TODO add filepath for local archived data and create function to rename files with timestamp at the end of file name
+filepath = os.path.join(cwd, 'assets/data/temperature.csv')
+archived_data_page = html.Div([
+    dcc.Link('temperature.csv', href = filepath),
+    
+])
+
 
 ##Updates the temperature/time graph.
 @app.callback(
@@ -101,8 +143,43 @@ def refresh_data(n_clicks):
     Input('interval-component-2', 'n_intervals'))
 def refresh_temp_value(n_clicks):
     recent_temp = Graphs.get_most_recent_temp()
-    return drawText(recent_temp)
+    return drawText('Temperature: %s F' % recent_temp)
 
+
+##Callback for turning the sensors and camera on and off
+# TODO plug the script in to toggle sensors and camera
+@app.callback(
+    Output('tabs-content-props', 'children'),
+    Input('tabs-styled-with-props', 'value'))
+def render_content(tab):
+    if tab == 'temp-sensor':
+        return html.Div([
+            html.H3('Temp Sensor On')
+        ])
+    elif tab == 'distance-sensor':
+        return html.Div([
+            html.H3('Distance Sensor On')
+        ])
+    elif tab == 'camera-feed':
+        return html.Div([
+            html.H3('Camera On')
+        ])
+    elif tab == 'all-plugins':
+        return html.Div([
+            html.H3('Temperature Sensor, Distance Sensor, and Camera Feed On')
+        ])
+
+##Callback for webpages
+@app.callback(
+    Output('page-content', 'children'),
+    Input('url', 'pathname'))
+def display_page(pathname):
+    if pathname == '/':
+        return home
+    elif pathname == '/archivedData':
+        return archived_data_page
+
+    
 
 # Run app and display result inline in the notebook
 if __name__ == "__main__":
