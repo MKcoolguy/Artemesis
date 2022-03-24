@@ -190,14 +190,20 @@ def refresh_temp_value(n_clicks):
     Input('tabs-styled-with-props', 'value'))
 def render_content(tab):
     if tab == 'temp-sensor':
+        temp_filepath = os.path.join(cwd, 'assets/temperature.py')
+        exec(open(temp_filepath).read())
         return html.Div([
             html.H3('Temp Sensor On')
         ])
     elif tab == 'distance-sensor':
+        dist_filepath = os.path.join(cwd, 'assets/distance.py')
+        exec(open(dist_filepath).read())
         return html.Div([
             html.H3('Distance Sensor On')
         ])
     elif tab == 'camera-feed':
+        stream_filepath = os.path.join(cwd, 'assets/stream.py')
+        exec(open(stream_filepath).read())
         return html.Div([
             html.H3('Camera On')
         ])
