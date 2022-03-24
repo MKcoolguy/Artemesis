@@ -12,7 +12,6 @@ class Graphs:
     #Creates the temperature graph
  
     def createTempGraph():
-        global df
         df = pd.read_csv(os.path.join(cwd, 'assets/data/temperature.csv'))
         df.columns = ['Time', 'Temperature']
         return go.Figure(
@@ -28,9 +27,32 @@ class Graphs:
             )
         )
 
+    def createDistanceGraph():
+        df = pd.read_csv(os.path.join(cwd, 'assets/data/distance.csv'))
+        df.columns = ['Time', 'Distance']
+        return go.Figure(
+            data=px.line(
+                x=df['Time'],
+                y=df['Distance']
+            ).update_layout(
+                xaxis_title='Time',
+                yaxis_title='Distance',
+                template='plotly_dark',
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+            )
+        )
+
     #returns the most recent temperature value read from the sensor.
     def get_most_recent_temp():
+        df = pd.read_csv(os.path.join(cwd, 'assets/data/temperature.csv'))
         y = df['Temperature']
+        return y.iat[-1]
+
+    
+    def get_most_recent_distance():
+        df = pd.read_csv(os.path.join(cwd, 'assets/data/distance.csv'))
+        y = df['Distance']
         return y.iat[-1]
     
     # Iris bar figure

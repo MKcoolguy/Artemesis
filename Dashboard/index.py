@@ -71,7 +71,13 @@ home = html.Div([
                         )
                 ], width=3),
                 dbc.Col([
-                    drawText("Testing...")
+                    #Distance
+                    html.Div(id="live-update-text-2"),
+                    dcc.Interval(
+                        id='interval-component-4',
+                        interval=1*1000, # in milliseconds
+                        n_intervals=0
+                        )
                 ], width=3),
                 dbc.Col([
                     drawText("Testing...")
@@ -89,7 +95,20 @@ home = html.Div([
                     Graphs.drawFigure()
                 ], width=3),
                 dbc.Col([
-                    Graphs.drawFigure() 
+                    html.Div([
+                        dbc.Card(
+                            dbc.CardBody([
+                                dcc.Graph(
+                                    id='distGraph',
+                                    figure=Graphs.createDistanceGraph()),
+                                    dcc.Interval(
+                                        id='interval-component-3',
+                                        interval=1*1000,
+                                        n_intervals=0
+                                    )
+                            ])
+                        )
+                    ]),
                 ], width=6),
             ], align='center'), 
             html.Br(),
@@ -137,6 +156,14 @@ def refresh_data(n_clicks):
     return Graphs.createTempGraph()
 
 
+##Updates the distance/time graph.
+@app.callback(
+    dash.dependencies.Output('distGraph', 'figure'),
+    dash.dependencies.Input('interval-component-3', 'n_intervals'))
+def refresh_data(n_clicks):
+    return Graphs.createDistanceGraph()
+
+
 ##Gets real time temp vlaue
 @app.callback(
     Output('live-update-text', 'children'),
@@ -144,6 +171,16 @@ def refresh_data(n_clicks):
 def refresh_temp_value(n_clicks):
     recent_temp = Graphs.get_most_recent_temp()
     return drawText('Temperature: %s F' % recent_temp)
+
+
+##Gets real time ditance vlaue
+@app.callback(
+    Output('live-update-text-2', 'children'),
+    Input('interval-component-4', 'n_intervals'))
+def refresh_temp_value(n_clicks):
+    recent_distance = Graphs.get_most_recent_distance()
+    format_float = "{:.2f}".format(recent_distance)
+    return drawText('Distance: %s cm' % format_float)
 
 
 ##Callback for turning the sensors and camera on and off
