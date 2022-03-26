@@ -14,8 +14,6 @@ import os
 from subprocess import call
 from dash.exceptions import PreventUpdate
 import subprocess
-from sys import executable
-from subprocess import Popen, CREATE_NEW_CONSOLE
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
 
