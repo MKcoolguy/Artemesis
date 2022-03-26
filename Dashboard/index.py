@@ -13,6 +13,7 @@ from figures import Graphs
 from figures import ArchivedData
 from assets import utils
 import os
+import subprocess
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
 
@@ -193,8 +194,9 @@ def refresh_temp_value(n_clicks):
     Input('tabs-styled-with-props', 'value'))
 def render_content(tab):
     if tab == 'temp-sensor':
-        utils.Temperature.run_temp_script()
-        #temp_filepath = os.path.join(cwd, 'assets/temperature.py')
+        #utils.Temperature.run_temp_script()
+        temp_filepath = os.path.join(cwd, 'assets/temperature.py')
+        subprocess.call(temp_filepath, shell=True)
         #os.system(temp_filepath)
         return html.Div([
             html.H3('Temp Sensor On')
