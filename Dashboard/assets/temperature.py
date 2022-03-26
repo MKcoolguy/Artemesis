@@ -14,7 +14,7 @@ datafile = "/home/pi/Artemis/Dashboard/assets/data/temperature.csv"
 
 #Fetch temperature, time, and humidity
 def get_data():
-    now = datetime.datetime.now()
+    now = datetime.now()
     temperature = dhtDevice.temperature * 1.8 + 32
     humidity = dhtDevice.humidity
     if humidity is not None and temperature is not None:
