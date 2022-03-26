@@ -14,6 +14,8 @@ import os
 from subprocess import call
 from dash.exceptions import PreventUpdate
 import subprocess
+from sys import executable
+from subprocess import Popen, CREATE_NEW_CONSOLE
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
 
@@ -194,16 +196,21 @@ def refresh_temp_value(n_clicks):
     Input('tabs-styled-with-props', 'value'))
 def render_content(tab):
     if tab == 'temp-sensor':
-        temp_filepath = os.path.join(cwd, 'assets/temperature.py')
-        
-        subprocess.Popen(['python', temp_filepath])
-                                    
+        #temp_filepath = os.path.join(cwd, 'assets/temperature.py')
+        #temp_subprocess()
+        #subprocess.Popen(['python', temp_filepath], env=cwd)
+        #Popen([executable, 'script.py'], creationflags=CREATE_NEW_CONSOLE)
+        cmd_line = "python dashboard/assets/temperature.py"
+        p = subprocess.Popen(cmd_line, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        out = p.communicate()[0]
+        print(out)                 
         #p1 = multiprocessing.Process(target=exec(open(temp_filepath).read()))
         #p1.start()
         #exec(open(temp_filepath).read())
         #call("python", temp_filepath, env=os.environ)
         #subprocess.call(temp_filepath, shell=True, env=temp_filepath)
         #os.system(temp_filepath)
+        
         '''
         return html.Div([
             html.H3('Temp Sensor On')
@@ -235,7 +242,6 @@ def display_page(pathname):
     elif pathname == '/archivedData':
         return archived_data_page
 
-    
 
 # Run app and display result inline in the notebook
 if __name__ == "__main__":
