@@ -8,10 +8,13 @@ import plotly.graph_objects as go
 import pandas as pd
 from jupyter_dash import JupyterDash
 from scipy.fft import dst
+from sklearn import utils
 from figures import Graphs
 from figures import ArchivedData
+from assets import utils
 import os
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
+
 
 # Text field
 def drawText(user_value):
@@ -190,8 +193,9 @@ def refresh_temp_value(n_clicks):
     Input('tabs-styled-with-props', 'value'))
 def render_content(tab):
     if tab == 'temp-sensor':
-        temp_filepath = os.path.join(cwd, 'assets/temperature.py')
-        os.system(temp_filepath)
+        utils.Temperature.run_temp_script()
+        #temp_filepath = os.path.join(cwd, 'assets/temperature.py')
+        #os.system(temp_filepath)
         return html.Div([
             html.H3('Temp Sensor On')
         ])
