@@ -192,7 +192,7 @@ def refresh_temp_value(n_clicks):
     Input('tabs-styled-with-props', 'value'))
 def render_content(tab):
     if tab == 'temp-sensor':
-        app_utils.Temperature.run_temp_script()
+        app_utils.Temperature.ge()
         #temp_filepath = os.path.join(cwd, 'assets/temperature.py')
         #subprocess.call(temp_filepath, shell=True, env=temp_filepath)
         #os.system(temp_filepath)
