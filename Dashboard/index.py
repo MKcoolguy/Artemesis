@@ -195,9 +195,9 @@ def refresh_temp_value(n_clicks):
 def render_content(tab):
     if tab == 'temp-sensor':
         temp_filepath = os.path.join(cwd, 'assets/temperature.py')
-        subprocess.Popen(['python', temp_filepath], 
-                                    stdout=subprocess.PIPE, 
-                                    stderr=subprocess.STDOUT)
+        
+        subprocess.Popen(['python', temp_filepath])
+                                    
         #p1 = multiprocessing.Process(target=exec(open(temp_filepath).read()))
         #p1.start()
         #exec(open(temp_filepath).read())
