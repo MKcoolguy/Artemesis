@@ -11,7 +11,8 @@ from scipy.fft import dst
 from figures import Graphs
 from figures import ArchivedData
 import os
-import subprocess
+from subprocess import call
+from dash.exceptions import PreventUpdate
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
 
@@ -193,7 +194,8 @@ def refresh_temp_value(n_clicks):
 def render_content(tab):
     if tab == 'temp-sensor':
         temp_filepath = os.path.join(cwd, 'assets/temperature.py')
-        exec(open(temp_filepath).read())
+        #exec(open(temp_filepath).read())
+        call(["python", temp_filepath])
         #subprocess.call(temp_filepath, shell=True, env=temp_filepath)
         #os.system(temp_filepath)
         '''
