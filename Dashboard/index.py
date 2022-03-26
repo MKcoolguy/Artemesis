@@ -194,11 +194,11 @@ def refresh_temp_value(n_clicks):
     Input('tabs-styled-with-props', 'value'))
 def render_content(tab):
     if tab == 'temp-sensor':
-        #temp_filepath = os.path.join(cwd, 'assets/temperature.py')
+        temp_filepath = os.path.join(cwd, 'assets/temperature.py')
         #temp_subprocess()
         #subprocess.Popen(['python', temp_filepath], env=cwd)
         #Popen([executable, 'script.py'], creationflags=CREATE_NEW_CONSOLE)
-        cmd_line = "python dashboard/assets/temperature.py"
+        cmd_line = "python {0}".format(temp_filepath)
         p = subprocess.Popen(cmd_line, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         out = p.communicate()[0]
         print(out)                 
