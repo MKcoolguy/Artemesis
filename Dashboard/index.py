@@ -8,12 +8,10 @@ import plotly.graph_objects as go
 import pandas as pd
 from jupyter_dash import JupyterDash
 from scipy.fft import dst
-from sklearn import utils
 from figures import Graphs
 from figures import ArchivedData
-from assets import utils
+from assets import app_utils
 import os
-import subprocess
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
 
@@ -194,9 +192,9 @@ def refresh_temp_value(n_clicks):
     Input('tabs-styled-with-props', 'value'))
 def render_content(tab):
     if tab == 'temp-sensor':
-        #utils.Temperature.run_temp_script()
-        temp_filepath = os.path.join(cwd, 'assets/temperature.py')
-        subprocess.call(temp_filepath, shell=True)
+        app_utils.Temperature.run_temp_script()
+        #temp_filepath = os.path.join(cwd, 'assets/temperature.py')
+        #subprocess.call(temp_filepath, shell=True, env=temp_filepath)
         #os.system(temp_filepath)
         return html.Div([
             html.H3('Temp Sensor On')
