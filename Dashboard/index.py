@@ -196,10 +196,7 @@ def refresh_temp_value(n_clicks):
 def render_content(tab):
     if tab == 'temp-sensor':
         temp_filepath = os.path.join(cwd, 'assets/temperature.py')
-        cmd_line = 'python {}'.format(temp_filepath)
-        #my_env = os.path.join(cwd, 'assets')
-        #os.system(cmd_line)
-        app_utils.Temperature.get_data()
+        exec(open(temp_filepath).read())
         '''
         return html.Div([
             html.H3('Temp Sensor On')
