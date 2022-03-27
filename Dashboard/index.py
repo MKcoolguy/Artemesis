@@ -13,6 +13,7 @@ from figures import ArchivedData
 import os
 from subprocess import call
 from dash.exceptions import PreventUpdate
+from assets import app_utils
 import subprocess
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
@@ -195,20 +196,10 @@ def refresh_temp_value(n_clicks):
 def render_content(tab):
     if tab == 'temp-sensor':
         temp_filepath = os.path.join(cwd, 'assets/temperature.py')
-        #temp_subprocess()
-        #subprocess.Popen(['python', temp_filepath], env=cwd)
-        #Popen([executable, 'script.py'], creationflags=CREATE_NEW_CONSOLE)
-        cmd_line = "python {0}".format(temp_filepath)
-        p = subprocess.Popen(cmd_line, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        out = p.communicate()[0]
-        print(out)                 
-        #p1 = multiprocessing.Process(target=exec(open(temp_filepath).read()))
-        #p1.start()
-        #exec(open(temp_filepath).read())
-        #call("python", temp_filepath, env=os.environ)
-        #subprocess.call(temp_filepath, shell=True, env=temp_filepath)
-        #os.system(temp_filepath)
-        
+        cmd_line = 'python {}'.format(temp_filepath)
+        #my_env = os.path.join(cwd, 'assets')
+        #os.system(cmd_line)
+        app_utils.Temperature.get_data()
         '''
         return html.Div([
             html.H3('Temp Sensor On')
