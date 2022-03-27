@@ -25,18 +25,35 @@ from matplotlib import pyplot as plt
 from CrackDetectionDir import CrackDetection
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
-camera = cv2.VideoCapture(0)
+class VideoCamera(object):
+    
+    def __init__(self):
+        self.video = cv2.VideoCapture(0)
+
+    def __del__(self):
+        self.video.release()
+
+    def get_frame(self):
+        success, image = self.video.read()
+        ret, jpeg = cv2.imencode('.jpg', image)
+        return jpeg.tobytes()
+    
+    def get_photo(self):
+        return self.video.read()
+
+camera = VideoCamera()
 
 def video_gen(camera):
     while True:
-        success, image = camera.read()
+        success, image = camera.get_photo()
+        ''''''
         ret, jpeg = cv2.imencode('.jpg', image)
         frame = jpeg.tobytes()
         yield (b'--frame\r\n'
                            b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 def photo_generator(camera):
-    success, frame = camera.read()  # read the camera frame
+    success, frame = camera.get_photo()  # read the camera frame
     if not success:
         #print("photo camera could not connect")
         pass
