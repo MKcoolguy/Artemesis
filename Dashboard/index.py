@@ -8,12 +8,14 @@ import plotly.graph_objects as go
 import pandas as pd
 from jupyter_dash import JupyterDash
 from scipy.fft import dst
+from sympy import im
 from figures import Graphs
 from figures import ArchivedData
 import os
 from subprocess import call
 from dash.exceptions import PreventUpdate
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
+from assets import app_utils
 
 
 # Text field
@@ -200,8 +202,7 @@ def render_content(tab):
             html.H3('Temp Sensor On')
         ])'''
     elif tab == 'distance-sensor':
-        dist_filepath = os.path.join(cwd, 'assets/distance.py')
-        os.system(dist_filepath)
+        app_utils.Temperature.get_data()
         return html.Div([
             html.H3('Distance Sensor On')
         ])
