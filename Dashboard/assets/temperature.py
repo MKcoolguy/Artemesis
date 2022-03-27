@@ -1,12 +1,6 @@
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
 # SPDX-License-Identifier: MIT
-
-import sys
 import os
-conf_path = os.getcwd()
-sys.path.append(conf_path)
-sys.path.append("/home/pi/.local/lib/python3.9/site-packages/board.py") 
-
 import time
 from time import sleep
 import board

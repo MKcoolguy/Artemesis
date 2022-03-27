@@ -13,8 +13,6 @@ from figures import ArchivedData
 import os
 from subprocess import call
 from dash.exceptions import PreventUpdate
-from assets import app_utils
-import subprocess
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
 
