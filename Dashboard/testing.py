@@ -30,14 +30,10 @@ camera = cv2.VideoCapture(0)
 def video_gen(camera):
     while True:
         success, image = camera.read()
-        if not success:
-            print("video camera could not connect")
-            break
-        else: 
-            ret, jpeg = cv2.imencode('.jpg', image)
-            frame = jpeg.tobytes()
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+        ret, jpeg = cv2.imencode('.jpg', image)
+        frame = jpeg.tobytes()
+        yield (b'--frame\r\n'
+                           b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 def photo_generator(camera):
     success, frame = camera.read()  # read the camera frame
