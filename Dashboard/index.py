@@ -1,3 +1,5 @@
+from tkinter.ttk import Style
+from urllib import request
 import dash
 from dash import dcc
 from dash import html
@@ -18,22 +20,22 @@ import cv2
 from flask import Flask, Response
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
-# Text field
-def drawText(user_value):
-    return html.Div([
-        dbc.Card(
-            dbc.CardBody([
-                html.Div([
-                    user_value
-                ], style={'textAlign': 'center'}),
-            ])
-        ),
-    ])
+class VideoCamera(object):
+    def __init__(self):
+        self.video = cv2.VideoCapture(0)
+
+    def __del__(self):
+        self.video.release()
+
+    def get_frame(self):
+        success, image = self.video.read()
+        ret, jpeg = cv2.imencode('.jpg', image)
+        return jpeg.tobytes()
 
 
-
-# Build App
-app = JupyterDash(external_stylesheets=[dbc.themes.SLATE])
+server = Flask(__name__)
+#app = dash.Dash(__name__, server=server)
+app = JupyterDash(external_stylesheets=[dbc.themes.SLATE], server=server, suppress_callback_exceptions=True)
 app.layout = html.Div([
     dbc.NavbarSimple(
        children=[
@@ -50,6 +52,43 @@ app.layout = html.Div([
     html.Div(id='page-content')
 ])
 
+def gen(camera):
+    while True:
+        frame = camera.get_frame()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+
+@server.route('/video_feed')
+def video_feed():
+    return Response(gen(VideoCamera()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+my_stream = html.Div([
+    #html.H1("Webcam Test"),
+    #html.Img(src="/video_feed")
+
+    dbc.Card(
+            dbc.CardBody([
+                html.Div([
+                    html.Img(src="/video_feed", style ={'align': 'center', 'height': '100%','width': '100%'})
+                ], style={'textAlign': 'center'}),
+            ])
+        ),
+])
+
+# Text field
+def drawText(user_value):
+    return html.Div([
+        dbc.Card(
+            dbc.CardBody([
+                html.Div([
+                    user_value
+                ], style={'textAlign': 'center'}),
+            ])
+        ),
+    ])
 
 
 home = html.Div([
@@ -95,12 +134,7 @@ home = html.Div([
             dbc.Row([
                 #Camera feed
                 dbc.Col([
-                    dash.html.Img(id="live-free-camera-feed"),
-                    dcc.Interval(
-                                        id='interval-component-cam',
-                                        interval=1*1000,
-                                        n_intervals=0
-                                    )
+                  my_stream
                 ], width=6),
                 dbc.Col([
                     html.Div([
@@ -152,7 +186,7 @@ filepath = os.path.join(cwd, 'assets/data/temperature.csv')
 archived_data_page = html.Div([
     #dcc.Link('temperature.csv', href = filepath),
     ArchivedData.get_all_data('assets/data/')
-    
+
 ])
 
 
@@ -180,17 +214,6 @@ def refresh_temp_value(n_clicks):
     recent_temp = Graphs.get_most_recent_temp()
     return drawText('Temperature: %s F' % recent_temp)
 
-
-##Gets camera stream
-@app.callback(
-    Output('live-camera-feed', 'children'),
-    Input('interval-component-cam', 'n_intervals'))
-def video_feed():
-    return Response(gen(VideoCamera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
-
 ##Gets real time ditance vlaue
 @app.callback(
     Output('live-update-text-2', 'children'),
@@ -199,6 +222,7 @@ def refresh_temp_value(n_clicks):
     recent_distance = Graphs.get_most_recent_distance()
     format_float = "{:.2f}".format(recent_distance)
     return drawText('Distance: %s cm' % format_float)
+
 
 
 ##Callback for turning the sensors and camera on and off
@@ -231,6 +255,7 @@ def render_content(tab):
             html.H3('Temperature Sensor, Distance Sensor, and Camera Feed On')
         ])
 
+
 ##Callback for webpages
 @app.callback(
     Output('page-content', 'children'),
@@ -241,22 +266,5 @@ def display_page(pathname):
     elif pathname == '/archivedData':
         return archived_data_page
 
-
-class VideoCamera(object):
-    def __init__(self):
-        self.video = cv2.VideoCapture(0)
-
-    def __del__(self):
-        self.video.release()
-
-    def get_frame(self):
-        success, image = self.video.read()
-        ret, jpeg = cv2.imencode('.jpg', image)
-        return jpeg.tobytes()
-
-
-
-# Run app and display result inline in the notebook
-if __name__ == "__main__":
-    app.run_server(host='0.0.0.0', port='8050', mode='external')
-    #app.run_server(debug=True)
+if __name__ == '__main__':
+    app.run_server(debug=True)
