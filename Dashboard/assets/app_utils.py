@@ -22,7 +22,7 @@ class Temperature:
         else:
             data = {'timestamp': None, 'temperature': None, 'humidity': None}
             print(data)
-            return(data)
+            #return(data)
 
     # Writes Temperature and Time to .csv file
 
@@ -75,3 +75,5 @@ class Temperature:
             raise error
 
         time.sleep(2.0)
+
+

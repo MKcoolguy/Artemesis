@@ -15,7 +15,6 @@ import os
 from subprocess import call
 from dash.exceptions import PreventUpdate
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
-from assets import app_utils
 
 
 # Text field
@@ -202,6 +201,7 @@ def render_content(tab):
             html.H3('Temp Sensor On')
         ])'''
     elif tab == 'distance-sensor':
+        from assets import app_utils
         app_utils.Temperature.get_data()
         return html.Div([
             html.H3('Distance Sensor On')
