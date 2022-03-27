@@ -10,7 +10,7 @@ import os.path
 # Initialize the dht device, with data pin connected to: 21
 dhtDevice = adafruit_dht.DHT11(board.D21)
 #Datafile Location
-datafile = "/home/pi/Artemis/Dashboard/assets/data/temperature2.csv"
+datafile = "/home/pi/Artemis/Dashboard/assets/data/temperature.csv"
 
 #Fetch temperature, time, and humidity
 def get_data():
