@@ -4,11 +4,9 @@
     <list default="true" id="e34dd504-25ff-4aad-9ac6-d8c926b1c2b8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/assets/data/distance.csv" beforeDir="false" afterPath="$PROJECT_DIR$/assets/data/distance.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/data/temperature.csv" beforeDir="false" afterPath="$PROJECT_DIR$/assets/data/temperature.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/temperature.py" beforeDir="false" afterPath="$PROJECT_DIR$/assets/temperature.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/utils.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/figures.py" beforeDir="false" afterPath="$PROJECT_DIR$/figures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/distance.py" beforeDir="false" afterPath="$PROJECT_DIR$/assets/distance.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/index.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/testing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +36,7 @@
       <option name="presentableId" value="Default" />
       <updated>1643246069878</updated>
       <workItem from="1643246072968" duration="9000" />
-      <workItem from="1648237880790" duration="4461000" />
+      <workItem from="1648237880790" duration="5055000" />
     </task>
     <servers />
   </component>

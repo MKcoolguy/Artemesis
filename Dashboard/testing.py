@@ -18,19 +18,34 @@ from subprocess import call
 from dash.exceptions import PreventUpdate
 import cv2
 from flask import Flask, Response
+import base64
+import numpy as np
+import io
+from matplotlib import pyplot as plt
+from CrackDetectionDir import CrackDetection
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
-class VideoCamera(object):
-    def __init__(self):
-        self.video = cv2.VideoCapture(0)
+camera = cv2.VideoCapture(0)
 
-    def __del__(self):
-        self.video.release()
+def video_gen(camera):
+    while True:
+        success, image = camera.read()
+        if not success:
+            print("video camera could not connect")
+            break
+        else: 
+            ret, jpeg = cv2.imencode('.jpg', image)
+            frame = jpeg.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
-    def get_frame(self):
-        success, image = self.video.read()
-        ret, jpeg = cv2.imencode('.jpg', image)
-        return jpeg.tobytes()
+def photo_generator(camera):
+    success, frame = camera.read()  # read the camera frame
+    if not success:
+        #print("photo camera could not connect")
+        pass
+    else:
+        return frame
 
 
 server = Flask(__name__)
@@ -61,7 +76,7 @@ def gen(camera):
 
 @server.route('/video_feed')
 def video_feed():
-    return Response(gen(VideoCamera()),
+    return Response(video_gen(camera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
@@ -171,9 +186,17 @@ home = html.Div([
                             ])
                         )
                     ]),
-                ], width=9),
+                ], width=6),
                 dbc.Col([
-                    Graphs.drawFigure()
+                    html.Div([
+                        html.H4("Crack Detector"),
+                        dcc.Interval( 
+                        id = 'graph-update', 
+                        interval = 1000, 
+                        n_intervals = 0
+                    ),
+                    html.Img(id="image", src=app.get_asset_url('test_0.png'))
+                    ])
                 ], width=3),
             ], align='center'),      
         ]), color = 'dark'
@@ -223,9 +246,20 @@ def refresh_temp_value(n_clicks):
     format_float = "{:.2f}".format(recent_distance)
     return drawText('Distance: %s cm' % format_float)
 
+@app.callback(
+    Output('image', 'src'),
+    Input('graph-update', 'n_intervals'))
+def update_snapshot(n):
+    frame = photo_generator(camera)
+    frame2 = CrackDetection.do_this(frame)
+    _, buffer = cv2.imencode('.png', frame2)
+    source_image = base64.b64encode(buffer).decode('utf-8')
+    return 'data:image/png;base64,{}'.format(source_image)
+    # cracks = CrackDetection.do_this(frame)
 
 
-##Callback for turning the sensors and camera on and off
+
+##Callback for turning the sensors and cameraA on and off
 # TODO plug the script in to toggle sensors and camera
 @app.callback(
     Output('tabs-content-props', 'children'),
@@ -234,10 +268,6 @@ def render_content(tab):
     if tab == 'temp-sensor':
         temp_filepath = os.path.join(cwd, 'assets/temperature.py')
         exec(open(temp_filepath).read())
-        '''
-        return html.Div([
-            html.H3('Temp Sensor On')
-        ])'''
     elif tab == 'distance-sensor':
         from assets import app_utils
         app_utils.Temperature.get_data()

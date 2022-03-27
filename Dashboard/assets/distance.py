@@ -52,11 +52,11 @@ def get_data():
     if distance is not None:
         data = {'timestamp': str(now.strftime(
             "%Y%m%d_%H-%M-%S")), 'distance': distance}
-        print(data)
+        #print(data)
         return(data)
     else:
         data = {'timestamp': None, 'distance': None}
-        print(data)
+        #print(data)
         return(data)
 
 #Writes Distance and Time to .csv file
