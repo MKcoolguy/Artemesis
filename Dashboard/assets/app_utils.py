@@ -16,8 +16,13 @@ class Temperature:
 
     global dhtDevice
     global datafile
-    dhtDevice = adafruit_dht.DHT11(board.D21)
+    try:
+        dhtDevice = adafruit_dht.DHT11(board.D21)
+
+    except:
+        print("you're good")
     # Datafile Location
+    
     datafile = "/home/pi/Artemis/Dashboard/assets/data/temperature.csv"
 
 
