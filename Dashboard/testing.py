@@ -26,7 +26,6 @@ from CrackDetectionDir import CrackDetection
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
 class VideoCamera(object):
-    
     def __init__(self):
         self.video = cv2.VideoCapture(0)
 
@@ -89,14 +88,13 @@ def gen(camera):
 
 @server.route('/video_feed')
 def video_feed():
+    global camera
     return Response(video_gen(camera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-my_stream = html.Div([
-    #html.H1("Webcam Test"),
-    #html.Img(src="/video_feed")
-
+# Live Camera Stream
+my_stream = html.Div([  
     dbc.Card(
             dbc.CardBody([
                 html.Div([
@@ -105,6 +103,23 @@ my_stream = html.Div([
             ])
         ),
 ])
+
+# Crack Detection Stream
+my_stream_crack_detect = html.Div([
+    dbc.Card(
+            dbc.CardBody([
+                html.Div([
+                    html.H4("Crack Detector"),
+                                    dcc.Interval( 
+                                    id = 'graph-update', 
+                                    interval = 1000, 
+                                    n_intervals = 0
+                    ),
+                    html.Img(id="image", src=app.get_asset_url('test_0.png'), style ={'align': 'center', 'height': '100%','width': '100%'})
+                            ])
+                ], style={'textAlign': 'center'}),
+    ),
+            ])
 
 # Text field
 def drawText(user_value):
@@ -124,7 +139,7 @@ home = html.Div([
         dcc.Tab(label='Temperature Sensor On/Off', value='temp-sensor'),
         dcc.Tab(label='Distance Sensor On/Off', value='distance-sensor'),
         dcc.Tab(label='Camera On/Off', value='camera-feed'),
-        dcc.Tab(label='All On/off', value='all-plugins'),
+        dcc.Tab(label='All On/Off', value='all-plugins'),
     ], colors={
         "border": "black",
         "primary": "Silver",
@@ -141,7 +156,7 @@ home = html.Div([
                         interval=1*1000, # in milliseconds
                         n_intervals=0
                         )
-                ], width=3),
+                ], width=6),
                 dbc.Col([
                     #Distance
                     html.Div(id="live-update-text-2"),
@@ -150,13 +165,7 @@ home = html.Div([
                         interval=1*1000, # in milliseconds
                         n_intervals=0
                         )
-                ], width=3),
-                dbc.Col([
-                    drawText("Testing...")
-                ], width=3),
-                dbc.Col([
-                    drawText("Testing...")
-                ], width=3),
+                ], width=6),
             ], align='center'), 
             html.Br(),
             dbc.Row([
@@ -201,17 +210,9 @@ home = html.Div([
                     ]),
                 ], width=6),
                 dbc.Col([
-                    html.Div([
-                        html.H4("Crack Detector"),
-                        dcc.Interval( 
-                        id = 'graph-update', 
-                        interval = 1000, 
-                        n_intervals = 0
-                    ),
-                    html.Img(id="image", src=app.get_asset_url('test_0.png'))
-                    ])
-                ], width=3),
-            ], align='center'),      
+                        my_stream_crack_detect
+                ], width=6),
+            ], ),      
         ]), color = 'dark'
     ) 
 ])
