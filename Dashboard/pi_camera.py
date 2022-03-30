@@ -1,20 +1,21 @@
 import cv2
-from imutils.video.pivideostream import PiVideoStream
-import imutils
 import time
 import numpy as np
 
 class VideoCamera(object):
-    def __init__(self):
-        self.video = cv2.VideoCapture(0)
 
-    def __del__(self):
-        self.video.release()
+    global video 
+    video = cv2.VideoCapture(0)
 
-    def get_frame(self):
-        success, image = self.video.read()
-        ret, jpeg = cv2.imencode('.jpg', image)
-        return jpeg.tobytes()
+    def __del__():
+        video.release()
+
+    def get_frame():
+        return video.read()
     
-    def get_photo(self):
-        return self.video.read()
+    def get_photo():
+        success, image = video.read()
+        if not success:
+            pass
+        else:
+            return image

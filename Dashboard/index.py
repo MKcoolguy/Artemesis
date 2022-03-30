@@ -29,16 +29,13 @@ import threading
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
 
-
-camera =  VideoCamera()
-
 server = Flask(__name__)
 app = JupyterDash(external_stylesheets=[dbc.themes.SLATE], server=server, suppress_callback_exceptions=True)
 
 #Generate camera frame
 def video_gen(camera):
     while True:
-        success, image = camera.get_photo()
+        success, image = camera.get_frame()
         ret, jpeg = cv2.imencode('.jpg', image)
         frame = jpeg.tobytes()
         yield (b'--frame\r\n'
@@ -47,7 +44,7 @@ def video_gen(camera):
 #Video feed route
 @server.route('/video_feed')
 def video_feed():
-    return Response(video_gen(camera),
+    return Response(video_gen(VideoCamera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 #Base layout for all webpages
@@ -241,7 +238,7 @@ def refresh_temp_value(n_clicks):
     Output('image', 'src'),
     Input('graph-update', 'n_intervals'))
 def update_snapshot(n):
-    frame = camera.get_photo()
+    frame = VideoCamera.get_photo()
     frame2 = CrackDetection.do_this(frame)
     _, buffer = cv2.imencode('.png', frame2)
     source_image = base64.b64encode(buffer).decode('utf-8')
