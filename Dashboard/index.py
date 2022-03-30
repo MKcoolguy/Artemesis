@@ -23,7 +23,7 @@ import numpy as np
 import io
 from matplotlib import pyplot as plt
 from CrackDetectionDir import CrackDetection
-from picamera import VideoCamera
+from pi_camera import VideoCamera
 import time
 import threading
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
@@ -36,16 +36,18 @@ server = Flask(__name__)
 app = JupyterDash(external_stylesheets=[dbc.themes.SLATE], server=server, suppress_callback_exceptions=True)
 
 #Generate camera frame
-def gen(camera):
+def video_gen(camera):
     while True:
-        frame = camera.get_frame()
+        success, image = camera.get_photo()
+        ret, jpeg = cv2.imencode('.jpg', image)
+        frame = jpeg.tobytes()
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+                           b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 #Video feed route
-@app.route('/video_feed')
+@server.route('/video_feed')
 def video_feed():
-    return Response(gen(camera),
+    return Response(video_gen(camera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 #Base layout for all webpages
@@ -147,6 +149,7 @@ home = html.Div([
                   my_stream
                 ], width=6),
                 dbc.Col([
+                    #Distance/Time Graph
                     html.Div([
                         dbc.Card(
                             dbc.CardBody([
@@ -183,6 +186,7 @@ home = html.Div([
                     ]),
                 ], width=6),
                 dbc.Col([
+                        #Crack detection Stream
                         my_stream_crack_detect
                 ], width=6),
             ], ),      
@@ -237,7 +241,7 @@ def refresh_temp_value(n_clicks):
     Output('image', 'src'),
     Input('graph-update', 'n_intervals'))
 def update_snapshot(n):
-    frame = pi_cam.get_photo()
+    frame = camera.get_photo()
     frame2 = CrackDetection.do_this(frame)
     _, buffer = cv2.imencode('.png', frame2)
     source_image = base64.b64encode(buffer).decode('utf-8')
