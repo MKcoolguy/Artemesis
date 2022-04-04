@@ -30,6 +30,8 @@ pip install dash-html-components
 pip install dash-bootstrap-components
 pip install plotly
 pip install pandas
+pip install opencv-python
+pip install jupyter-dash
 ```
 
 #### To Run
