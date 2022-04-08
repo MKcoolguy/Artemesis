@@ -18,11 +18,6 @@ from subprocess import call
 from dash.exceptions import PreventUpdate
 import cv2
 from flask import Flask, Response
-import base64
-import numpy as np
-import io
-from matplotlib import pyplot as plt
-from CrackDetectionDir import CrackDetection
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
 class VideoCamera(object):
@@ -36,28 +31,6 @@ class VideoCamera(object):
         success, image = self.video.read()
         ret, jpeg = cv2.imencode('.jpg', image)
         return jpeg.tobytes()
-    
-    def get_photo(self):
-        return self.video.read()
-
-camera = VideoCamera()
-
-def video_gen(camera):
-    while True:
-        success, image = camera.get_photo()
-        ''''''
-        ret, jpeg = cv2.imencode('.jpg', image)
-        frame = jpeg.tobytes()
-        yield (b'--frame\r\n'
-                           b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-
-def photo_generator(camera):
-    success, frame = camera.get_photo()  # read the camera frame
-    if not success:
-        #print("photo camera could not connect")
-        pass
-    else:
-        return frame
 
 
 server = Flask(__name__)
@@ -88,13 +61,14 @@ def gen(camera):
 
 @server.route('/video_feed')
 def video_feed():
-    global camera
-    return Response(video_gen(camera),
+    return Response(gen(VideoCamera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-# Live Camera Stream
-my_stream = html.Div([  
+my_stream = html.Div([
+    #html.H1("Webcam Test"),
+    #html.Img(src="/video_feed")
+
     dbc.Card(
             dbc.CardBody([
                 html.Div([
@@ -103,23 +77,6 @@ my_stream = html.Div([
             ])
         ),
 ])
-
-# Crack Detection Stream
-my_stream_crack_detect = html.Div([
-    dbc.Card(
-            dbc.CardBody([
-                html.Div([
-                    html.H4("Crack Detector"),
-                                    dcc.Interval( 
-                                    id = 'graph-update', 
-                                    interval = 1000, 
-                                    n_intervals = 0
-                    ),
-                    html.Img(id="image", src=app.get_asset_url('test_0.png'), style ={'align': 'center', 'height': '100%','width': '100%'})
-                            ])
-                ], style={'textAlign': 'center'}),
-    ),
-            ])
 
 # Text field
 def drawText(user_value):
@@ -139,7 +96,7 @@ home = html.Div([
         dcc.Tab(label='Temperature Sensor On/Off', value='temp-sensor'),
         dcc.Tab(label='Distance Sensor On/Off', value='distance-sensor'),
         dcc.Tab(label='Camera On/Off', value='camera-feed'),
-        dcc.Tab(label='All On/Off', value='all-plugins'),
+        dcc.Tab(label='All On/off', value='all-plugins'),
     ], colors={
         "border": "black",
         "primary": "Silver",
@@ -156,7 +113,7 @@ home = html.Div([
                         interval=1*1000, # in milliseconds
                         n_intervals=0
                         )
-                ], width=6),
+                ], width=3),
                 dbc.Col([
                     #Distance
                     html.Div(id="live-update-text-2"),
@@ -165,7 +122,13 @@ home = html.Div([
                         interval=1*1000, # in milliseconds
                         n_intervals=0
                         )
-                ], width=6),
+                ], width=3),
+                dbc.Col([
+                    drawText("Testing...")
+                ], width=3),
+                dbc.Col([
+                    drawText("Testing...")
+                ], width=3),
             ], align='center'), 
             html.Br(),
             dbc.Row([
@@ -208,11 +171,11 @@ home = html.Div([
                             ])
                         )
                     ]),
-                ], width=6),
+                ], width=9),
                 dbc.Col([
-                        my_stream_crack_detect
-                ], width=6),
-            ], ),      
+                    Graphs.drawFigure()
+                ], width=3),
+            ], align='center'),      
         ]), color = 'dark'
     ) 
 ])
@@ -223,7 +186,7 @@ filepath = os.path.join(cwd, 'assets/data/temperature.csv')
 archived_data_page = html.Div([
     #dcc.Link('temperature.csv', href = filepath),
     ArchivedData.get_all_data('assets/data/')
-    
+
 ])
 
 
@@ -260,20 +223,9 @@ def refresh_temp_value(n_clicks):
     format_float = "{:.2f}".format(recent_distance)
     return drawText('Distance: %s cm' % format_float)
 
-@app.callback(
-    Output('image', 'src'),
-    Input('graph-update', 'n_intervals'))
-def update_snapshot(n):
-    frame = photo_generator(camera)
-    frame2 = CrackDetection.do_this(frame)
-    _, buffer = cv2.imencode('.png', frame2)
-    source_image = base64.b64encode(buffer).decode('utf-8')
-    return 'data:image/png;base64,{}'.format(source_image)
-    # cracks = CrackDetection.do_this(frame)
 
 
-
-##Callback for turning the sensors and cameraA on and off
+##Callback for turning the sensors and camera on and off
 # TODO plug the script in to toggle sensors and camera
 @app.callback(
     Output('tabs-content-props', 'children'),
@@ -282,6 +234,10 @@ def render_content(tab):
     if tab == 'temp-sensor':
         temp_filepath = os.path.join(cwd, 'assets/temperature.py')
         exec(open(temp_filepath).read())
+        '''
+        return html.Div([
+            html.H3('Temp Sensor On')
+        ])'''
     elif tab == 'distance-sensor':
         from assets import app_utils
         app_utils.Temperature.get_data()
@@ -312,4 +268,3 @@ def display_page(pathname):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-    
