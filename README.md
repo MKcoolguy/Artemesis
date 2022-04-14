@@ -11,48 +11,21 @@
   The Dashboard sub folder contains the python code for displaying metrics and a general control panel for our device.
 
 #### Requires
-Dash, Dash HTML Components, Dash Core Components, Dash Bootstrap Components, Plotly, and Pandas. Install using your package manager of choice.
+  See requirements.txt for a comprehensive list of what we require and what versions.
 
-Anaconda:
-```
-conda install -c conda-forge dash
-conda install -c conda-forge dash-core-components
-conda install -c conda-forge dash-html-components
-conda install -c conda-forge dash-bootstrap-components
-conda install -c conda-forge plotly
-conda install -c conda-forge pandas
-```
-Pip:
-```
-pip install dash
-pip install dash-core-components
-pip install dash-html-components
-pip install dash-bootstrap-components
-pip install plotly
-pip install pandas
-pip install opencv-python
-pip install jupyter-dash
-```
+  To install, run:
+  ``` 
+  pip install -r requirements.txt 
+  ```
 
 #### To Run
-  index.py is the primary dashboard server, ensure you run that either locally in your terminal or with something like pm2.
+  index.py is the primary dashboard server, simply run it locally to use until a proper production build is made.
 
 ## Helpers
 
   The helpers subdirectory is a set of scripts necessary for major parts of our project to function, such as live video streaming from the S.A.U.C.E. module itself.
 
-#### Requires
-Just PiCamera
-
-Install it through the terminal, below example is for debian-based distros.
-```
-apt-get install python3-picamera
-```
-
-#### To Run
-  Call the scripts directly (python3 scriptname.py). These will be rolled into the dashboard as time goes forward.
-
 ## Authors
 Dr. Tae Lee (tslee@ggc.edu), Dr. Sairam Tangirala (stangira@ggc.edu)
 
-Byron Fisher (bfisher1@ggc.edu), Khamilah Nixon (knixon4@ggc.edu), Kristoffer Hendricks (khendricks@ggc.edu), Matteo Kitic (mkitic@ggc.edu), Samuel Mckinney (smckinney1@ggc.edu), Valerie Morse (vmorse@ggc.edu)
+Byron Fisher (bfisher1@ggc.edu), Khamilah Nixon (knixon4@ggc.edu), Matteo Kitic (mkitic@ggc.edu), Samuel Mckinney (smckinney1@ggc.edu), Valerie Morse (vmorse@ggc.edu)
