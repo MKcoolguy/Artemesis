@@ -1,31 +1,19 @@
-from tkinter.ttk import Style
-from urllib import request
+import base64
+import os
+
+import cv2
 import dash
-from dash import dcc
-from dash import html
 import dash_bootstrap_components as dbc
+from dash import dcc, html
 from dash.dependencies import Input, Output
-import plotly.express as px
-import plotly.graph_objects as go
-import pandas as pd
+from flask import Flask, Response
 from jupyter_dash import JupyterDash
 from scipy.fft import dst
-from sympy import im
-from figures import Graphs
-from figures import ArchivedData
-import os
-from subprocess import call
-from dash.exceptions import PreventUpdate
-import cv2
-from flask import Flask, Response
-import base64
-import numpy as np
-import io
-from matplotlib import pyplot as plt
+
 from CrackDetectionDir import CrackDetection
+from figures import ArchivedData, Graphs
 from pi_camera import VideoCamera
-import time
-import threading
+
 cwd = os.path.dirname(__file__)  # Used for consistent file detection.
 
 
