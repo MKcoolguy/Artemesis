@@ -11,8 +11,10 @@ Documentation Lead (secondary)<br></sub>
 Testing Lead (secondary) <br></sub>
 <br>
 
-
-
+<b>Jacob Franscoviak::coffee:</b></br>
+<sub>UI/UX(primary) <br>
+Client Liason(secondary) <br></sub>
+<br>
 
 
 
