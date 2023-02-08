@@ -7,10 +7,10 @@
   Designed as an entry into the NASA Minds project.
  
 ## Selected Technology Stack
-Python
-Flash and Dash
-HTML
-Jupyter
+Python<br>
+Flash and Dash<br>
+HTML<br>
+Jupyter<br>
 
 ## Dashboard
 
