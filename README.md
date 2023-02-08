@@ -29,3 +29,5 @@
 Dr. Tae Lee (tslee@ggc.edu), Dr. Sairam Tangirala (stangira@ggc.edu)
 
 Byron Fisher (bfisher1@ggc.edu), Khamilah Nixon (knixon4@ggc.edu), Matteo Kitic (mkitic@ggc.edu), Samuel Mckinney (smckinney1@ggc.edu), Valerie Morse (vmorse@ggc.edu)
+
+Team SAUCE 2.0 (Spring 2023) Kelvin Zetino (kzetino@ggc.edu) Brad Nguyen (bnguyen11@ggc.edu) Jacob Franscoviak (jfranscoviak@ggc.com)
