@@ -10,7 +10,6 @@ Python<br>
 Flash and Dash<br>
 HTML<br>
 Jupyter<br>
-
 </p>
 
 

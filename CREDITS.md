@@ -1,11 +1,15 @@
-<h2>Roles:</h2> 
+<h1>***Roles***	`rgb(9, 105, 218)`:</h2> 
+
 <b>Kelvin Zetino::suspect:</b><br>
 <sub>Team Manager (primary) <br> 
 Documentation Lead (secondary)<br></sub>
 <br>
 
 
-Bradley: Roles - Data Modeler & Testing Lead, will also work on Code Architecture(Coding)
+<b>Bradley Nguyen::crab:</b></br>
+<sub>Data Modeler (primary) <br>
+Testing Lead (secondary) <br></sub>
+<br>
 
 
 
