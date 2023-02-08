@@ -1,12 +1,15 @@
 <h1 align-"center">S.A.U.C.E. 2.0.</h1>
 <p>
-</p>
 
   S.A.U.C.E. or Structural Analysis Using Contactless Evaluation is a small contactless device that is designed to assess, analyze, and monitor the structural integrity of manufactured structures by utilizing object detection technology, thermal imaging, range finding, and vibrational monitors. The information gathered is collected and stored for further analysis. Version 2.0 is a continuation of our original project with a newfound focus on portability and compatibility with robotic systems that would allow us to expand on the existing features by allowing use in locations that would otherwise be inaccessible.
   
   Designed as an entry into the NASA Minds project.
 
-## Dashboard
+</p>
+
+
+
+### Dashboard
 
   The Dashboard sub folder contains the python code for displaying metrics and a general control panel for our device.
 
@@ -30,4 +33,4 @@ Dr. Tae Lee (tslee@ggc.edu), Dr. Sairam Tangirala (stangira@ggc.edu)
 
 Byron Fisher (bfisher1@ggc.edu), Khamilah Nixon (knixon4@ggc.edu), Matteo Kitic (mkitic@ggc.edu), Samuel Mckinney (smckinney1@ggc.edu), Valerie Morse (vmorse@ggc.edu)
 
-Team SAUCE 2.0 (Spring 2023) Kelvin Zetino (kzetino@ggc.edu) Brad Nguyen (bnguyen11@ggc.edu) Jacob Franscoviak (jfranscoviak@ggc.com)
+Team SAUCE(2.0) - Software Development Team(Spring 2023): Kelvin Zetino (kzetino@ggc.edu) Bradley Nguyen (bnguyen11@ggc.edu) Jacob Franscoviak (jfranscoviak@ggc.com)
