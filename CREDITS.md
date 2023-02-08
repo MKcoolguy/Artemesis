@@ -1,4 +1,4 @@
-<h1>***Roles***	`rgb(9, 105, 218)`:</h2> 
+<h1>Roles:</h2> 
 
 <b>Kelvin Zetino::suspect:</b><br>
 <sub>Team Manager (primary) <br> 
