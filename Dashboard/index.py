@@ -273,9 +273,10 @@ def display_page(pathname):
         return archived_data_page
 
 ##Grabbing local ip
-address = ([l for l in ([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")][:1], [[(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) if l][0][0])
+hostname = socket.gethostname()
+address = socket.gethostbyname_ex(hostname)[2][1]
 
 #Run application
 if __name__ == '__main__':
-    app.run_server(debug=True, host=address, port=8050)
+    app.run_server(debug=True, host=address, port=8080)
     
