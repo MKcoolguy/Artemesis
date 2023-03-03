@@ -1,7 +1,7 @@
 import base64
 import os
 import socket
-
+import whatismyip
 import cv2
 import dash
 import dash_bootstrap_components as dbc
@@ -9,6 +9,7 @@ from dash import dcc, html
 from dash.dependencies import Input, Output
 from flask import Flask, Response
 from jupyter_dash import JupyterDash
+
 from scipy.fft import dst
 
 from CrackDetectionDir import CrackDetection
@@ -273,10 +274,14 @@ def display_page(pathname):
         return archived_data_page
 
 ##Grabbing local ip
-hostname = socket.gethostname()
-address = socket.gethostbyname_ex(hostname)[2][1]
+
+addressraw = whatismyip.whatismylocalip()
+address = ''
+for item in addressraw:
+    address  = address + item
 
 #Run application
 if __name__ == '__main__':
-    app.run_server(debug=True, host=address, port=8080)
+    print(address)
+    app.run_server(debug=True, host=address, port=8050)
     
