@@ -232,8 +232,10 @@ def update_snapshot(n):
     source_image = base64.b64encode(buffer).decode('utf-8')
     return 'data:image/png;base64,{}'.format(source_image)
 
-
-
+##Save snapshop feature
+@app.callback(
+def save_snapshots(cap, 'snapshot.jpg')
+)
 ##Callback for turning the sensors and camera on and off
 # TODO plug the script in to toggle sensors and camera
 @app.callback(
