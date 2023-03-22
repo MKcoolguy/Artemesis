@@ -1,7 +1,7 @@
 # importing necessary libraries
-import numpy as np
 import cv2
-from matplotlib import pyplot as plt
+import numpy as np
+
 
 # read a cracked sample image
 def do_this(img):

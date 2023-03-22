@@ -5,10 +5,12 @@ import whatismyip
 import cv2
 import dash
 import dash_bootstrap_components as dbc
-from dash import dcc, html
+from dash import dcc, html , Input, Output
+import dash_auth
 from dash.dependencies import Input, Output
 from flask import Flask, Response
 from jupyter_dash import JupyterDash
+import array as arr
 
 from scipy.fft import dst
 
@@ -273,15 +275,47 @@ def display_page(pathname):
     elif pathname == '/archivedData':
         return archived_data_page
 
+#Authentication
+passWord = []
+userName = []
+it = 0
+it2 = 0
+with open("Users.txt") as openfileobject:
+    for line in openfileobject:
+        it+=1
+        if (it%2 != 0):
+            userName.append(line.rstrip('\n'))
+            print(userName)
+        else :
+            passWord.append(line.rstrip("\n"))
+            print(passWord)
+
+
+for x in userName:
+    VALID_USERNAME_PASSWORD_PAIRS = {
+        userName[userName.index(x)]: passWord[userName.index(x)]
+    }
+
+
+
+
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
+
+
+
+
 ##Grabbing local ip
 
 addressraw = whatismyip.whatismylocalip()
 address = ''
 for item in addressraw:
-    address  = address + item
+    address = address + item
+
 
 #Run application
 if __name__ == '__main__':
-    print(address)
-    app.run_server(debug=True, host=address, port=8050)
+    app.run_server(debug=True, host=addressraw[1], port=8050)
     
