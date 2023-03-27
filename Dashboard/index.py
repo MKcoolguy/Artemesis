@@ -1,6 +1,8 @@
 import base64
 import os
 import socket
+
+import dash_auth
 import whatismyip
 import cv2
 import dash
@@ -243,14 +245,14 @@ def update_snapshot(n):
     frame = VideoCamera.get_photo()
     frame2 = CrackDetection.do_this(frame)
     _, buffer = cv2.imencode('.png', frame2)
+
     source_image = base64.b64encode(buffer).decode('utf-8')
     return 'data:image/png;base64,{}'.format(source_image)
 
 
 ##Save snapshop feature
-@app.callback(
-def save_snapshots(cap, 'snapshot.jpg')
-)
+
+
 
 ##Callback for turning the sensors and camera on and off
 # TODO plug the script in to toggle sensors and camera
@@ -298,16 +300,18 @@ with open("Users.txt") as openfileobject:
         it+=1
         if (it%2 != 0):
             userName.append(line.rstrip('\n'))
-            print(userName)
         else :
             passWord.append(line.rstrip("\n"))
-            print(passWord)
 
 
-for x in userName:
-    VALID_USERNAME_PASSWORD_PAIRS = {
-        userName[userName.index(x)]: passWord[userName.index(x)]
+VALID_USERNAME_PASSWORD_PAIRS = {
     }
+for x in userName:
+    print(passWord[userName.index(x)])
+    print(userName[userName.index(x)])
+    VALID_USERNAME_PASSWORD_PAIRS.update({userName[userName.index(x)]: passWord[userName.index(x)]})
+
+    print(VALID_USERNAME_PASSWORD_PAIRS)
 
 
 
@@ -327,4 +331,4 @@ for item in addressraw:
 # Run application
 if __name__ == '__main__':
     print(address)
-    app.run_server(debug=True, host=address, port=8050)
+    app.run_server(debug=True, host=addressraw[0], port=8080)
