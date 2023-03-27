@@ -40,7 +40,7 @@ def video_feed():
 
 
 # Base layout for all webpages
-logo = html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png', style={'height': '100%', 'width': '100%'})
+logo = html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png', style={'height': '80%', 'width': '80'})
 
 app.layout = html.Div([
     dbc.NavbarSimple(
