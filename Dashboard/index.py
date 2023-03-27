@@ -286,7 +286,34 @@ def display_page(pathname):
         return home
     elif pathname == '/archivedData':
         return archived_data_page
+#Authentication
+passWord = []
+userName = []
+it = 0
+it2 = 0
+with open("Users.txt") as openfileobject:
+    for line in openfileobject:
+        it+=1
+        if (it%2 != 0):
+            userName.append(line.rstrip('\n'))
+            print(userName)
+        else :
+            passWord.append(line.rstrip("\n"))
+            print(passWord)
 
+
+for x in userName:
+    VALID_USERNAME_PASSWORD_PAIRS = {
+        userName[userName.index(x)]: passWord[userName.index(x)]
+    }
+
+
+
+
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
 
 ##Grabbing local ip
 
