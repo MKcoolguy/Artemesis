@@ -29,6 +29,9 @@ Jupyter<br>
 #### To Run
   index.py is the primary dashboard server, simply run it locally to use until a proper production build is made.
 
+#### To Host
+  Port 8080 needs to be forwarded - App will function without but only locally
+
 ## Helpers
 
   The helpers subdirectory is a set of scripts necessary for major parts of our project to function, such as live video streaming from the S.A.U.C.E. module itself.
