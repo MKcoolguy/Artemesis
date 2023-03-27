@@ -40,14 +40,16 @@ def video_feed():
 
 
 # Base layout for all webpages
-logo = html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png', style={'height': '80%', 'width': '80'})
+logo = html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png', style={'align': "right",'height': '90%', 'width': '90%'})
+logo2 = html.Img(src='https://i.ytimg.com/vi/xq0ycmmlvII/maxresdefault.jpg', style ={'align': 'center', 'height':'20%','width':'20%'})
 
 app.layout = html.Div([
+    logo2,
     dbc.NavbarSimple(
        children=[
-          dbc.NavLink(logo),
           dbc.NavLink("Home", href="/", active="exact"),
           dbc.NavLink("Archived Data", href="/archivedData", active="exact"),
+          dbc.NavLink(logo)
        ],
        brand="S.A.U.C.E. 2.0",
        color="Black",
