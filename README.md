@@ -42,3 +42,7 @@ Dr. Tae Lee (tslee@ggc.edu), Dr. Sairam Tangirala (stangira@ggc.edu)
 Byron Fisher (bfisher1@ggc.edu), Khamilah Nixon (knixon4@ggc.edu), Matteo Kitic (mkitic@ggc.edu), Samuel Mckinney (smckinney1@ggc.edu), Valerie Morse (vmorse@ggc.edu)
 
 Team SAUCE(2.0) - Software Development Team(Spring 2023): Kelvin Zetino (kzetino@ggc.edu) Bradley Nguyen (bnguyen11@ggc.edu) Jacob Franscoviak (jfranscoviak@ggc.com)
+
+<h2>License<h2>
+<br>
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
