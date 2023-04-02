@@ -63,7 +63,7 @@ app.layout = html.Div([
                 style={'textAlign': 'right'},
             ),
         ],
-        brand="Welcome to S.A.U.C.E 2.0!",
+        brand="Welcome to S.A.U.C.E!",
         color="Black",
         dark=True,
 
