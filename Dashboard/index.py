@@ -1,8 +1,6 @@
 import base64
 import os
 import socket
-
-import dash_auth
 import whatismyip
 import cv2
 import dash
@@ -42,16 +40,18 @@ def video_feed():
 
 
 # Base layout for all webpages
-logo = html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png', style={'align': "right",'height': '90%', 'width': '90%'})
-logo2 = html.Img(src='https://i.ytimg.com/vi/xq0ycmmlvII/maxresdefault.jpg', style ={'align': 'center', 'height':'20%','width':'20%'})
+
+# added school logos in navigation bar
+logo = html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png', style={'align': "center",'height': '100%', 'width': '100%'})
+logo2 = html.Img(src='https://i.ytimg.com/vi/xq0ycmmlvII/maxresdefault.jpg', style={'align': 'center', 'height':'100%','width':'100%'})
 
 app.layout = html.Div([
     logo2,
     dbc.NavbarSimple(
        children=[
+          dbc.NavLink(logo),
           dbc.NavLink("Home", href="/", active="exact"),
           dbc.NavLink("Archived Data", href="/archivedData", active="exact"),
-          dbc.NavLink(logo)
        ],
        brand="S.A.U.C.E. 2.0",
        color="Black",
@@ -245,14 +245,14 @@ def update_snapshot(n):
     frame = VideoCamera.get_photo()
     frame2 = CrackDetection.do_this(frame)
     _, buffer = cv2.imencode('.png', frame2)
-
     source_image = base64.b64encode(buffer).decode('utf-8')
     return 'data:image/png;base64,{}'.format(source_image)
 
 
 ##Save snapshop feature
-
-
+##@app.callback(
+##def save_snapshots(cap, 'snapshot.jpg')
+##)
 
 ##Callback for turning the sensors and camera on and off
 # TODO plug the script in to toggle sensors and camera
@@ -300,26 +300,24 @@ with open("Users.txt") as openfileobject:
         it+=1
         if (it%2 != 0):
             userName.append(line.rstrip('\n'))
+            print(userName)
         else :
             passWord.append(line.rstrip("\n"))
+            print(passWord)
 
 
-VALID_USERNAME_PASSWORD_PAIRS = {
-    }
 for x in userName:
-    print(passWord[userName.index(x)])
-    print(userName[userName.index(x)])
-    VALID_USERNAME_PASSWORD_PAIRS.update({userName[userName.index(x)]: passWord[userName.index(x)]})
-
-    print(VALID_USERNAME_PASSWORD_PAIRS)
+    VALID_USERNAME_PASSWORD_PAIRS = {
+        userName[userName.index(x)]: passWord[userName.index(x)]
+    }
 
 
 
 
-auth = dash_auth.BasicAuth(
+##auth = dash_auth.BasicAuth(
     app,
     VALID_USERNAME_PASSWORD_PAIRS
-)
+##)
 
 ##Grabbing local ip
 
@@ -331,4 +329,4 @@ for item in addressraw:
 # Run application
 if __name__ == '__main__':
     print(address)
-    app.run_server(debug=True, host=addressraw[0], port=8080)
+    app.run_server(debug=True, host=address, port=8050)
