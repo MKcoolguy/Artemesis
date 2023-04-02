@@ -42,26 +42,38 @@ def video_feed():
 # Base layout for all webpages
 
 # added school logos in navigation bar
-logo = html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png', style={'align': "center",'height': '100%', 'width': '100%'})
-logo2 = html.Img(src='https://i.ytimg.com/vi/xq0ycmmlvII/maxresdefault.jpg', style={'align': 'center', 'height':'100%','width':'100%'})
+logo = html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png', style={'align': 'center','height': '100%', 'width': '100%'})
+logo2 = html.Img(src='https://i.ytimg.com/vi/xq0ycmmlvII/maxresdefault.jpg', style={'align': 'bottom', 'height':'100%','width':'50%'})
 
 app.layout = html.Div([
-    logo2,
     dbc.NavbarSimple(
-       children=[
-          dbc.NavLink(logo),
-          dbc.NavLink("Home", href="/", active="exact"),
-          dbc.NavLink("Archived Data", href="/archivedData", active="exact"),
-       ],
-       brand="S.A.U.C.E. 2.0",
-       color="Black",
-       dark=True,
+        children=[
+            dbc.NavItem(logo2),
+            dbc.NavItem(logo),
+            dbc.NavItem(dbc.NavLink("S.A.U.C.E Home", href="#")),
+            dbc.DropdownMenu(
+                children=[
+                    dbc.DropdownMenuItem("S.A.U.C.E Project Pages", header=True),
+                    dbc.DropdownMenuItem("Summary Poster", href="https://drive.google.com/file/d/1m31EnUmyegYb_2QLEbiI3V9Ewx4KIwRP/view"),
+                    dbc.DropdownMenuItem("GitHub Link", href="https://github.com/MKcoolguy/Artemis"),
+                ],
+                nav=True,
+                in_navbar=True,
+                label="Artemis Mission",
+                style={'textAlign': 'right'},
+            ),
+        ],
+        brand="Welcome to S.A.U.C.E 2.0!",
+        color="Black",
+        dark=True,
+
 
     ),
     # represents the browser address bar and doesn't render anything
     dcc.Location(id='url', refresh=False),
     # content will be rendered in this element
     html.Div(id='page-content')
+
 ])
 
 # Live Camera Stream component
@@ -69,8 +81,8 @@ my_stream = html.Div([
     dbc.Card(
         dbc.CardBody([
             html.Div([
-                html.Img(src="/video_feed", style={'align': 'center', 'height': '100%', 'width': '100%'})
-            ], style={'textAlign': 'center'}),
+                html.Img(src="/video_feed", style={'align': 'left', 'height': '100%', 'width': '60%'})
+            ], style={'textAlign': 'left'})
         ])
     ),
 ])
