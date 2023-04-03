@@ -1,11 +1,10 @@
 import base64
 import os
 import socket
-
-import dash_auth
+import dash
 import whatismyip
 import cv2
-import dash
+import dash_auth
 import dash_bootstrap_components as dbc
 from dash import dcc, html
 from dash.dependencies import Input, Output
@@ -57,17 +56,36 @@ app.layout = html.Div([
         style={"background-color": "seagreen", "padding": "10px","border-bottom":"0px"}
     ),
     dbc.NavbarSimple(
-        children=[
-            dbc.NavLink("Home", href="/", active="exact"),
-            dbc.NavLink("Archived Data", href="/archivedData", active="exact"),
-        ],
+        dbc.NavItem(logo),
+        dbc.NavItem(dbc.NavLink("S.A.U.C.E Home", href="#")),
+        dbc.DropdownMenu(
+                children=[
+                    dbc.DropdownMenuItem("S.A.U.C.E Project Pages", header=True),
+                    dbc.DropdownMenuItem("Summary Poster", href="https://drive.google.com/file/d/1m31EnUmyegYb_2QLEbiI3V9Ewx4KIwRP/view"),
+                    dbc.DropdownMenuItem("GitHub Link", href="https://github.com/MKcoolguy/Artemis"),
+                ],
         color="seagreen",
         dark=True,
         style={"background-color": "seagreen", "padding": "10px", "border-top": "0px"}
     ),
-    dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
-])
+        nav=True,
+        in_navbar=True,
+        label="Artemis Mission",
+        style={'textAlign': 'right'},
+        ),
+    ],
+    brand="Welcome to S.A.U.C.E 2.0!",
+    color="Black",
+    dark=True,
+    ),
+
+#represents the browser address bar and doesn't render anything
+dcc.Location(id='url', refresh=False),
+# content will be rendered in this element
+html.Div(id='page-content')
+
+
+
 
 #Live Camera Stream component
 my_stream = html.Div([
