@@ -1,7 +1,9 @@
 # importing necessary libraries
+import os
+
 import cv2
 import numpy as np
-
+from datetime import datetime
 
 # read a cracked sample image
 def do_this(img):
@@ -41,9 +43,20 @@ def do_this(img):
     featuredImg = cv2.drawKeypoints(closing, keypoints, None)
 
     # Create an output image
+    dirname = os.path.dirname(__file__)
+    relPath = os.path.join(dirname, 'Output-SetCam/')
+    if len(keypoints) > 1000:
+        filename = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') + '.jpg'
+        cv2.imwrite(relPath + filename,img)
+        os.listdir(relPath)
+
+
+
     cv2.imwrite('Output-Set/CrackDetected-{}.jpg'.format(count), featuredImg)
+
 
     # Return img
     return featuredImg
+
 
 

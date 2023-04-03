@@ -29,6 +29,9 @@ Jupyter<br>
 #### To Run
   index.py is the primary dashboard server, simply run it locally to use until a proper production build is made.
 
+#### To Host
+  Port 8080 needs to be forwarded - App will function without but only locally
+
 ## Helpers
 
   The helpers subdirectory is a set of scripts necessary for major parts of our project to function, such as live video streaming from the S.A.U.C.E. module itself.
@@ -39,3 +42,7 @@ Dr. Tae Lee (tslee@ggc.edu), Dr. Sairam Tangirala (stangira@ggc.edu)
 Byron Fisher (bfisher1@ggc.edu), Khamilah Nixon (knixon4@ggc.edu), Matteo Kitic (mkitic@ggc.edu), Samuel Mckinney (smckinney1@ggc.edu), Valerie Morse (vmorse@ggc.edu)
 
 Team SAUCE(2.0) - Software Development Team(Spring 2023): Kelvin Zetino (kzetino@ggc.edu) Bradley Nguyen (bnguyen11@ggc.edu) Jacob Franscoviak (jfranscoviak@ggc.com)
+
+<h2>License<h2>
+<br>
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
