@@ -38,6 +38,7 @@ def video_gen(camera):
 def video_feed():
     return Response(video_gen(VideoCamera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+
 # Base layout for all webpages
 logo = html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png')
 brand_text = html.Div([
@@ -67,24 +68,22 @@ app.layout = html.Div([
         color="seagreen",
         dark=True,
         style={"background-color": "seagreen", "padding": "10px", "border-top": "0px"}
-    ),
+        ),
         nav=True,
         in_navbar=True,
         label="Artemis Mission",
         style={'textAlign': 'right'},
         ),
     ],
-    brand="Welcome to S.A.U.C.E 2.0!",
+    brand="Welcome to S.A.U.C.E !",
     color="Black",
-    dark=True,
+    dark=True
     ),
 
 #represents the browser address bar and doesn't render anything
 dcc.Location(id='url', refresh=False),
 # content will be rendered in this element
 html.Div(id='page-content')
-
-
 
 
 #Live Camera Stream component
