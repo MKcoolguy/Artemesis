@@ -1,6 +1,8 @@
 import base64
 import os
 import socket
+
+import dash_auth
 import whatismyip
 import cv2
 import dash
@@ -37,76 +39,65 @@ def video_gen(camera):
 def video_feed():
     return Response(video_gen(VideoCamera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
 # Base layout for all webpages
-
-# added school logos in navigation bar
-logo = html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png', style={'align': 'center','height': '100%', 'width': '100%'})
-logo2 = html.Img(src='https://i.ytimg.com/vi/xq0ycmmlvII/maxresdefault.jpg', style={'align': 'bottom', 'height':'100%','width':'50%'})
-
+logo = html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png')
+brand_text = html.Div([
+    html.Span('S.A.U.C.E.'),
+    html.Span('2.0', style={'font-weight': 'bold'})
+])
+#Base layout for all webpages
 app.layout = html.Div([
+    dbc.Row(
+        dbc.Col(
+            html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png'),
+            width=10,
+            align="center"
+        ),
+        justify="center",
+        style={"background-color": "seagreen", "padding": "10px","border-bottom":"0px"}
+    ),
     dbc.NavbarSimple(
         children=[
-            dbc.NavItem(logo2),
-            dbc.NavItem(logo),
-            dbc.NavItem(dbc.NavLink("S.A.U.C.E Home", href="#")),
-            dbc.DropdownMenu(
-                children=[
-                    dbc.DropdownMenuItem("S.A.U.C.E Project Pages", header=True),
-                    dbc.DropdownMenuItem("Summary Poster", href="https://drive.google.com/file/d/1m31EnUmyegYb_2QLEbiI3V9Ewx4KIwRP/view"),
-                    dbc.DropdownMenuItem("GitHub Link", href="https://github.com/MKcoolguy/Artemis"),
-                ],
-                nav=True,
-                in_navbar=True,
-                label="Artemis Mission",
-                style={'textAlign': 'right'},
-            ),
+            dbc.NavLink("Home", href="/", active="exact"),
+            dbc.NavLink("Archived Data", href="/archivedData", active="exact"),
         ],
-        brand="Welcome to S.A.U.C.E!",
-        color="Black",
+        color="seagreen",
         dark=True,
-
-
+        style={"background-color": "seagreen", "padding": "10px", "border-top": "0px"}
     ),
-    # represents the browser address bar and doesn't render anything
     dcc.Location(id='url', refresh=False),
-    # content will be rendered in this element
     html.Div(id='page-content')
-
 ])
 
-# Live Camera Stream component
+#Live Camera Stream component
 my_stream = html.Div([
     dbc.Card(
-        dbc.CardBody([
-            html.Div([
-                html.Img(src="/video_feed", style={'align': 'left', 'height': '100%', 'width': '60%'})
-            ], style={'textAlign': 'left'})
-        ])
-    ),
+            dbc.CardBody([
+                html.Div([
+                    html.Img(src="/video_feed", style ={'align': 'center', 'height': '50%','width': '50%' })
+                ], style={'textAlign': 'center'}),
+            ])
+        ),
 ])
 
-# Crack Detection Stream component
+#Crack Detection Stream component
 my_stream_crack_detect = html.Div([
     dbc.Card(
-        dbc.CardBody([
-            html.Div([
-                html.H4("Crack Detector"),
-                dcc.Interval(
-                    id='graph-update',
-                    interval=1000,
-                    n_intervals=0
-                ),
-                html.Img(id="image", src=app.get_asset_url('test_0.png'),
-                         style={'align': 'center', 'height': '100%', 'width': '100%'})
-            ])
-        ], style={'textAlign': 'center'}),
+            dbc.CardBody([
+                html.Div([
+                    html.H4("Crack Detector"),
+                                    dcc.Interval(
+                                    id = 'graph-update',
+                                    interval = 1000,
+                                    n_intervals = 0
+                    ),
+                    html.Img(id="image", src=app.get_asset_url('test_0.png'), style ={'align': 'center', 'height': '50%','width': '50%'})
+                            ])
+                ], style={'textAlign': 'center'}),
     ),
-])
+            ])
 
-
-# Styling function for text blocks
+#Styling function for text blocks
 def drawText(user_value):
     return html.Div([
         dbc.Card(
@@ -118,8 +109,7 @@ def drawText(user_value):
         ),
     ])
 
-
-# Home page
+#Home page
 home = html.Div([
     dcc.Tabs(id="tabs-styled-with-props", value='tab-1', children=[
         dcc.Tab(label='Temperature Sensor On/Off', value='temp-sensor'),
@@ -127,51 +117,59 @@ home = html.Div([
         dcc.Tab(label='Camera On/Off', value='camera-feed'),
         dcc.Tab(label='All On/Off', value='all-plugins'),
     ], colors={
-        "border": "Black",
-        "primary": "Sienna",
-        "background": "SeaGreen"
+        "border": "black",
+        "primary": "seagreen",
+        "background": "seagreen"
     }), html.Div(id='tabs-content-props'),
     dbc.Card(
         dbc.CardBody([
+                dcc.Slider(
+                    id='data-collection-slider',
+                    min=1,
+                    max=5,
+                    step=1,
+                    value=10,
+                    marks={i: str(i) for i in range(1, 5)}
+                ),
             dbc.Row([
                 dbc.Col([
-                    # Temperature
+                    #Temperature
                     html.Div(id="live-update-text"),
                     dcc.Interval(
                         id='interval-component-2',
-                        interval=1 * 1000,  # in milliseconds
+                        interval=1*1000, # in milliseconds
                         n_intervals=0
-                    )
+                        )
                 ], width=6),
                 dbc.Col([
-                    # Distance
+                    #Distance
                     html.Div(id="live-update-text-2"),
                     dcc.Interval(
                         id='interval-component-4',
-                        interval=1 * 1000,  # in milliseconds
+                        interval=1*1000, # in milliseconds
                         n_intervals=0
-                    )
+                        )
                 ], width=6),
             ], align='center'),
             html.Br(),
             dbc.Row([
-                # Camera feed
+                #Camera feed
                 dbc.Col([
-                    my_stream
-                ], width=8),
+                  my_stream
+                ], width=6),
                 dbc.Col([
-                    # Distance/Time Graph
+                    #Distance/Time Graph
                     html.Div([
                         dbc.Card(
                             dbc.CardBody([
                                 dcc.Graph(
                                     id='distGraph',
                                     figure=Graphs.createDistanceGraph()),
-                                dcc.Interval(
-                                    id='interval-component-3',
-                                    interval=1 * 1000,
-                                    n_intervals=0
-                                )
+                                    dcc.Interval(
+                                        id='interval-component-3',
+                                        interval=1*1000,
+                                        n_intervals=0
+                                    )
                             ])
                         )
                     ]),
@@ -180,28 +178,28 @@ home = html.Div([
             html.Br(),
             dbc.Row([
                 dbc.Col([
-                    # Temperature/Time Graph
+                    #Temperature/Time Graph
                     html.Div([
                         dbc.Card(
                             dbc.CardBody([
                                 dcc.Graph(
                                     id='tempGraph',
                                     figure=Graphs.createTempGraph()),
-                                dcc.Interval(
-                                    id='interval-component',
-                                    interval=1 * 1000,
-                                    n_intervals=0
-                                )
+                                    dcc.Interval(
+                                        id='interval-component',
+                                        interval=1*1000,
+                                        n_intervals=0
+                                    )
                             ])
                         )
                     ]),
                 ], width=6),
                 dbc.Col([
-                    # Crack detection Stream
-                    my_stream_crack_detect
+                        #Crack detection Stream
+                        my_stream_crack_detect
                 ], width=6),
             ], ),
-        ]), color='SeaGreen'
+        ]), color = 'seagreen'
     )
 ])
 
@@ -257,14 +255,14 @@ def update_snapshot(n):
     frame = VideoCamera.get_photo()
     frame2 = CrackDetection.do_this(frame)
     _, buffer = cv2.imencode('.png', frame2)
+
     source_image = base64.b64encode(buffer).decode('utf-8')
     return 'data:image/png;base64,{}'.format(source_image)
 
 
 ##Save snapshop feature
-##@app.callback(
-##def save_snapshots(cap, 'snapshot.jpg')
-##)
+
+
 
 ##Callback for turning the sensors and camera on and off
 # TODO plug the script in to toggle sensors and camera
@@ -312,24 +310,20 @@ with open("Users.txt") as openfileobject:
         it+=1
         if (it%2 != 0):
             userName.append(line.rstrip('\n'))
-            print(userName)
         else :
             passWord.append(line.rstrip("\n"))
-            print(passWord)
 
 
-for x in userName:
-    VALID_USERNAME_PASSWORD_PAIRS = {
-        userName[userName.index(x)]: passWord[userName.index(x)]
+VALID_USERNAME_PASSWORD_PAIRS = {
     }
+for x in userName:
+    VALID_USERNAME_PASSWORD_PAIRS.update({userName[userName.index(x)]: passWord[userName.index(x)]})
 
 
-
-
-##auth = dash_auth.BasicAuth(
+auth = dash_auth.BasicAuth(
     app,
     VALID_USERNAME_PASSWORD_PAIRS
-##)
+)
 
 ##Grabbing local ip
 
@@ -341,4 +335,4 @@ for item in addressraw:
 # Run application
 if __name__ == '__main__':
     print(address)
-    app.run_server(debug=True, host=address, port=8050)
+    app.run_server(debug=True, host=addressraw[0], port=8080)
