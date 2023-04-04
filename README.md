@@ -8,22 +8,17 @@
 
 ## Dashboard
 
-  The Dashboard sub folder contains the python code for displaying metrics and a general control panel for our device.
+  The Dashboard sub folder contains the python code for displaying metrics and a general control panel for our device. For any future plans, I would reccomend that people continuing on the project clean up directory structure and dependecies.
 
-#### Requires
-  See requirements.txt for a comprehensive list of what we require and what versions.
+#### Requirements, Installation, and Execution
 
-  To install, run:
-  ``` 
-  pip install -r requirements.txt 
-  ```
+This was built using a Raspberry Pi 3 Model B+ with a DHT11 temperature sensor, an HC-SR04 distance sensor, and both a standard RPi Camera and a FLIR camera.
 
-#### To Run
-  index.py is the primary dashboard server, simply run it locally to use until a proper production build is made.
+Your development system and the Pi will require Python3 which can be found [here](https://www.python.org/downloads/).
 
-## Helpers
+Due to many students seeking to continue this project and/or fork this project and running into dependency issues/not using venvs, this project has been migrated to [Poetry](https://python-poetry.org/). You should install that using the instructions found [here](https://python-poetry.org/docs/).
 
-  The helpers subdirectory is a set of scripts necessary for major parts of our project to function, such as live video streaming from the S.A.U.C.E. module itself.
+After installing Poetry, simply clone the repo, navigate into Artemis/Dashboard/ and execute "poetry run python index.py" which will run a testing version of a flask website with the dashboard on it.
 
 ## Authors
 Dr. Tae Lee (tslee@ggc.edu), Dr. Sairam Tangirala (stangira@ggc.edu)
