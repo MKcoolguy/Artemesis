@@ -6,6 +6,7 @@ import whatismyip
 import cv2
 import dash_auth
 import dash_bootstrap_components as dbc
+import datetime
 from dash import dcc, html
 from dash.dependencies import Input, Output
 from flask import Flask, Response
@@ -38,14 +39,18 @@ def video_gen(camera):
 def video_feed():
     return Response(video_gen(VideoCamera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
 # Base layout for all webpages
 logo = html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png')
 brand_text = html.Div([
     html.Span('S.A.U.C.E.'),
     html.Span('2.0', style={'font-weight': 'bold'})
 ])
+
 #Base layout for all webpages
 app.layout = html.Div([
+    html.H1('The time is: ' + str(datetime.datetime.now())),
     dbc.Row(
         dbc.Col(
             html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png'),
@@ -56,6 +61,7 @@ app.layout = html.Div([
         style={"background-color": "seagreen", "padding": "10px","border-bottom":"0px"}
 
     ),
+    ## Drop-Down menu
     dbc.Row(
         dbc.DropdownMenu(
         children=[
@@ -63,19 +69,20 @@ app.layout = html.Div([
             dbc.DropdownMenuItem(dbc.NavLink("Summary Poster", href="https://ggcedu.sharepoint.com/:p:/r/sites/APL/_layouts/15/Doc.aspx?sourcedoc=%7BA6BFB3D3-0AA6-4612-99E0-5825D0227F5D%7D&file=NASA-MINDS-Poster.pptx&action=edit&mobileredirect=true")),
             dbc.DropdownMenuItem(dbc.NavLink("Semester Plan", href="https://sway.office.com/vzl8CVGTqe7gqqzH?ref=Link")),
         ],
+        direction = "up",
+        toggle_style={
+            "font-color" : "seagreen",
+            "textTransform": "uppercase",
+            "background": "#4f2400",
+        },
+        toggleClassName="fst-italic border border-dark",
         label='Artemis Mission',
         color="seagreen",
-        toggle_style={
-            "textTransform": "uppercase",
-            "background": "#198754",
-            "background-color": "seagreen",
-        },
-        toggleClassName="fst-italic border border-dark"
     ),
         style={"background-color": "seagreen", "padding": "10px", "border-bottom": "0px"}
     ),
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
+    html.Div(id='page-content'),
 ])
 
 #Live Camera Stream component
@@ -220,6 +227,10 @@ archived_data_page = html.Div([
     ArchivedData.get_all_data('assets/data/')
 
 ])
+
+##Updates the current time every time the page is refreshed // Bradley
+def serve_layout():
+    return html.H1('The time is: ' + str(datetime.datetime.now()))
 
 
 ##Updates the temperature/time graph.
