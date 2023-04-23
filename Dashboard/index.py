@@ -38,7 +38,6 @@ def video_gen(camera):
 def video_feed():
     return Response(video_gen(VideoCamera),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
-
 # Base layout for all webpages
 logo = html.Img(src='https://colleges-static.raise.me/georgia-gwinnett-college/logo-120x120.png')
 brand_text = html.Div([
@@ -55,36 +54,23 @@ app.layout = html.Div([
         ),
         justify="center",
         style={"background-color": "seagreen", "padding": "10px","border-bottom":"0px"}
+
     ),
-    dbc.NavbarSimple(
-        dbc.NavItem(logo),
-        dbc.NavItem(dbc.NavLink("S.A.U.C.E Home", href="#")),
-        dbc.DropdownMenu(
-                children=[
-                    dbc.DropdownMenuItem("S.A.U.C.E Project Pages", header=True),
-                    dbc.DropdownMenuItem("Summary Poster", href="https://drive.google.com/file/d/1m31EnUmyegYb_2QLEbiI3V9Ewx4KIwRP/view"),
-                    dbc.DropdownMenuItem("GitHub Link", href="https://github.com/MKcoolguy/Artemis"),
-                ],
-        color="seagreen",
-        dark=True,
-        style={"background-color": "seagreen", "padding": "10px", "border-top": "0px"}
-        ),
-        nav=True,
-        in_navbar=True,
+
+    dbc.DropdownMenu(
         label="Artemis Mission",
-        style={'textAlign': 'right'},
-        ),
-    ],
-    brand="Welcome to S.A.U.C.E !",
-    color="Black",
-    dark=True
+        children=[
+            dbc.DropdownMenuItem(dbc.NavLink("Github", href="https://github.com/soft-eng-practicum/Artemis")),
+            dbc.DropdownMenuItem(dbc.NavLink("Summary Poster", href="https://ggcedu.sharepoint.com/:p:/r/sites/APL/_layouts/15/Doc.aspx?sourcedoc=%7BA6BFB3D3-0AA6-4612-99E0-5825D0227F5D%7D&file=NASA-MINDS-Poster.pptx&action=edit&mobileredirect=true")),
+            dbc.DropdownMenuItem(dbc.NavLink("Semester Plan", href="https://sway.office.com/vzl8CVGTqe7gqqzH?ref=Link")),
+        ]
     ),
 
-#represents the browser address bar and doesn't render anything
-dcc.Location(id='url', refresh=False),
-# content will be rendered in this element
-html.Div(id='page-content')
 
+
+    dcc.Location(id='url', refresh=False),
+    html.Div(id='page-content')
+])
 
 #Live Camera Stream component
 my_stream = html.Div([
