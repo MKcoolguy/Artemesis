@@ -58,13 +58,21 @@ app.layout = html.Div([
     ),
 
     dbc.DropdownMenu(
-        label="Artemis Mission",
         children=[
             dbc.DropdownMenuItem(dbc.NavLink("Github", href="https://github.com/soft-eng-practicum/Artemis")),
             dbc.DropdownMenuItem(dbc.NavLink("Summary Poster", href="https://ggcedu.sharepoint.com/:p:/r/sites/APL/_layouts/15/Doc.aspx?sourcedoc=%7BA6BFB3D3-0AA6-4612-99E0-5825D0227F5D%7D&file=NASA-MINDS-Poster.pptx&action=edit&mobileredirect=true")),
             dbc.DropdownMenuItem(dbc.NavLink("Semester Plan", href="https://sway.office.com/vzl8CVGTqe7gqqzH?ref=Link")),
-        ]
+        ],
+        label='Artemis Mission',
+        color="seagreen",
+        toggle_style={
+            "textTransform": "uppercase",
+            "background": "#009949",
+            "background-color": "seagreen",
+        },
+        toggleClassName="fst-italic border border-dark"
     ),
+
 
 
 
@@ -124,6 +132,7 @@ home = html.Div([
         "primary": "seagreen",
         "background": "seagreen"
     }), html.Div(id='tabs-content-props'),
+
     dbc.Card(
         dbc.CardBody([
                 dcc.Slider(
