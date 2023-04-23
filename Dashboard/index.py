@@ -56,8 +56,8 @@ app.layout = html.Div([
         style={"background-color": "seagreen", "padding": "10px","border-bottom":"0px"}
 
     ),
-
-    dbc.DropdownMenu(
+    dbc.Row(
+        dbc.DropdownMenu(
         children=[
             dbc.DropdownMenuItem(dbc.NavLink("Github", href="https://github.com/soft-eng-practicum/Artemis")),
             dbc.DropdownMenuItem(dbc.NavLink("Summary Poster", href="https://ggcedu.sharepoint.com/:p:/r/sites/APL/_layouts/15/Doc.aspx?sourcedoc=%7BA6BFB3D3-0AA6-4612-99E0-5825D0227F5D%7D&file=NASA-MINDS-Poster.pptx&action=edit&mobileredirect=true")),
@@ -67,15 +67,13 @@ app.layout = html.Div([
         color="seagreen",
         toggle_style={
             "textTransform": "uppercase",
-            "background": "#009949",
+            "background": "#198754",
             "background-color": "seagreen",
         },
         toggleClassName="fst-italic border border-dark"
     ),
-
-
-
-
+        style={"background-color": "seagreen", "padding": "10px", "border-bottom": "0px"}
+    ),
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content')
 ])
