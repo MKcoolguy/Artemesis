@@ -280,7 +280,6 @@ def update_snapshot(n):
     source_image = base64.b64encode(buffer).decode('utf-8')
     return 'data:image/png;base64,{}'.format(source_image)
 
-
 ##Save snapshop feature
 
 
@@ -321,6 +320,8 @@ def display_page(pathname):
         return home
     elif pathname == '/archivedData':
         return archived_data_page
+
+
 #Authentication
 passWord = []
 userName = []
@@ -347,7 +348,6 @@ auth = dash_auth.BasicAuth(
 )
 
 ##Grabbing local ip
-
 addressraw = whatismyip.whatismylocalip()
 address = ''
 for item in addressraw:
